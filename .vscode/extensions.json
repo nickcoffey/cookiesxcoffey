@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "formulahendry.auto-rename-tag",
+    "wesbos.theme-cobalt2",
+    "dbaeumer.vscode-eslint",
+    "heybourn.headwind",
+    "esbenp.prettier-vscode",
+    "burkeholland.simple-react-snippets",
+    "bradlc.vscode-tailwindcss"
+  ]
+}
