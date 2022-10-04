@@ -6,6 +6,9 @@
     "heybourn.headwind",
     "esbenp.prettier-vscode",
     "burkeholland.simple-react-snippets",
-    "bradlc.vscode-tailwindcss"
+    "bradlc.vscode-tailwindcss",
+    "eamodio.gitlens",
+    "ms-vscode-remote.vscode-remote-extensionpack",
+    "vscode-icons-team.vscode-icons"
   ]
 }
