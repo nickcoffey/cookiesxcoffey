@@ -6,6 +6,7 @@ export default function Document() {
   return (
     <Html>
       <Head>
+        {/* Google Fonts */}
         <link rel='preconnect' href='https://fonts.googleapis.com' />
         <link
           rel='preconnect'
@@ -16,8 +17,13 @@ export default function Document() {
           href='https://fonts.googleapis.com/css2?family=Poppins:wght@200;500&display=swap'
           rel='stylesheet'
         />
+        {/* Material Icons */}
+        <link
+          rel='stylesheet'
+          href='https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&display=swap'
+        />
       </Head>
-      <body>
+      <body className='bg-yellow'>
         <Main />
         <NextScript />
       </body>
