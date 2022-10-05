@@ -37,6 +37,7 @@ export const Input = ({
   textAreaProps
 }: Props) => {
   // fixes spacing on empty ios date inputs
+  console.log({ inputProps })
   const inputClasses = classNames('w-full h-full py-2 outline-none', {
     empty: inputProps?.type === 'date' && !inputProps?.value
   })
