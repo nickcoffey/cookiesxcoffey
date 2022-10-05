@@ -13,6 +13,12 @@ input[type='date'] {
   -webkit-appearance: textfield;
   -moz-appearance: textfield;
 }
+/* iOS only */
+@supports (-webkit-touch-callout: none) {
+  input[type='date'] {
+    @apply my-2;
+  }
+}
 
 /* removes yellow from inputs */
 input:-webkit-autofill {
