@@ -42,7 +42,7 @@ export const Input = ({
         {required && '*'}
       </label>
       {textAreaProps ? (
-        <div className='flex gap-2 px-2 bg-white border rounded-md border-primary group-focus-within:outline outline-1 outline-darkprimary'>
+        <div className='flex gap-2 px-2 bg-white rounded-md group-focus-within:ring ring-1 ring-darkprimary'>
           {icon && (
             <span className='pt-2 material-symbols-outlined'>{icon}</span>
           )}
@@ -52,7 +52,7 @@ export const Input = ({
           />
         </div>
       ) : (
-        <div className='flex items-center gap-2 px-2 bg-white border rounded-md border-primary group-focus-within:outline outline-1 outline-darkprimary'>
+        <div className='flex items-center gap-2 px-2 bg-white rounded-md group-focus-within:ring ring-1 ring-darkprimary'>
           {icon && <span className='material-symbols-outlined'>{icon}</span>}
           <input className='w-full h-full py-2 outline-none' {...inputProps} />
         </div>
