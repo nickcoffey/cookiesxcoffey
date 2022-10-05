@@ -23,7 +23,7 @@ export default function Document() {
           href='https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&display=swap'
         />
       </Head>
-      <body className='bg-yellow'>
+      <body className='text-black bg-lightgrey'>
         <Main />
         <NextScript />
       </body>

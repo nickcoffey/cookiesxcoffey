@@ -5,15 +5,15 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
+    // original theme
     // https://coolors.co/ccd5ae-e9edc9-fefae0-b98b82-e4959e
     colors: {
-      darkgreen: '#ccD5ae',
-      green: '#e9edc9',
-      yellow: '#fefae0',
-      darkpink: '#b98b82',
-      pink: '#e4959e',
+      primary: '#a6a6ff',
+      darkprimary: '#6e6eff',
+      lightprimary: '#c8c8fa',
       black: '#000000',
-      white: '#ffffff'
+      white: '#ffffff',
+      lightgrey: '#f5f5f5'
     },
     fontFamily: {
       sans: ['Poppins', 'sans-serif']

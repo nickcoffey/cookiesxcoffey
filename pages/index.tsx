@@ -1,22 +1,8 @@
 import Head from 'next/head'
-import { useForm, SubmitHandler } from 'react-hook-form'
-import { Navigation } from '../components'
+import { Navigation, OrderSection } from '../components'
 import type { NextPage } from 'next'
 
-type Inputs = {
-  name: string
-  email: string
-}
-
 const Home: NextPage = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm<Inputs>()
-
-  const onSubmit: SubmitHandler<Inputs> = data => console.log(data)
-
   return (
     <>
       <Head>
@@ -26,23 +12,12 @@ const Home: NextPage = () => {
       </Head>
       <Navigation />
       <main>
-        <div className="flex items-center justify-center bg-[url('/header.jpg')] bg-cover h-[50vh]">
-          <h1 className='p-4 text-3xl rounded-md font-extralight bg-pink'>
+        <header className="flex items-center justify-center bg-[url('/header.jpg')] bg-cover h-[50vh]">
+          <h1 className='p-4 text-4xl rounded-md font-extralight bg-primary'>
             Cookies by Coffey
           </h1>
-        </div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <input {...register('name', { required: true, maxLength: 75 })} />
-          <input
-            {...register('email', {
-              required: true,
-              maxLength: 75,
-              pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
-            })}
-          />
-          {errors.email && <span>This field is required</span>}
-          <input type='submit' />
-        </form>
+        </header>
+        <OrderSection />
         <div>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi aut
           modi voluptas quibusdam saepe beatae, nihil numquam nostrum doloremque

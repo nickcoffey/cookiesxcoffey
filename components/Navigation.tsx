@@ -3,8 +3,14 @@ import classNames from 'classnames'
 import { Transition } from '@headlessui/react'
 import { useOnClickOutside } from '../hooks'
 
-const links = ['Home', 'About', 'Contact'] as const
-type Link = typeof links[number]
+type LinkName = 'Home' | 'About' | 'Order'
+type Link = { name: LinkName; icon: string }
+
+const links: Link[] = [
+  { name: 'Home', icon: 'home' },
+  { name: 'About', icon: 'person' },
+  { name: 'Order', icon: 'mail' }
+]
 
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -30,7 +36,8 @@ export const Navigation = () => {
   const baseHeaderClasses = classNames(
     'fixed top-0 left-0 p-2 w-full transition duration-150',
     {
-      'bg-white shadow-lg': navVisEnabled
+      'bg-lightgrey shadow-lg text-black': navVisEnabled,
+      'text-white': !navVisEnabled
     }
   )
 
@@ -44,19 +51,20 @@ export const Navigation = () => {
   return (
     <>
       {/* Desktop Nav */}
-      <header className={desktopHeaderClasses}>
+      <nav className={desktopHeaderClasses}>
         {links.map((link, index) => (
           <a
-            className='px-4 py-2 no-underline transition duration-150 rounded-md cursor-pointer select-none hover:bg-pink'
-            onClick={() => link === 'Home' && scrollToTop()}
+            className='flex items-start justify-center gap-2 px-4 py-2 transition duration-150 rounded-md cursor-pointer select-none hover:text-black hover:bg-primary'
+            onClick={() => link.name === 'Home' && scrollToTop()}
             key={index}
           >
-            {link}
+            <span className='material-symbols-outlined'>{link.icon}</span>
+            {link.name}
           </a>
         ))}
-      </header>
+      </nav>
       {/* Mobile Nav */}
-      <header className={mobileHeaderClasses}>
+      <nav className={mobileHeaderClasses}>
         <span
           className='text-3xl material-symbols-outlined'
           onClick={scrollToTop}
@@ -64,7 +72,7 @@ export const Navigation = () => {
           home
         </span>
         <MobileNavButton />
-      </header>
+      </nav>
     </>
   )
 }
@@ -79,8 +87,8 @@ const MobileNavButton = () => {
   const toggleDrawer = () =>
     isDrawerOpen ? setIsDrawerOpen(false) : setIsDrawerOpen(true)
 
-  const handleLinkClick = (link: Link) => {
-    if (link === 'Home') {
+  const handleLinkClick = (linkName: LinkName) => {
+    if (linkName === 'Home') {
       scrollToTop()
       setIsDrawerOpen(false)
     }
@@ -109,8 +117,13 @@ const MobileNavButton = () => {
           ref={drawerRef}
         >
           {links.map((link, index) => (
-            <li key={index} onClick={() => handleLinkClick(link)}>
-              {link}
+            <li
+              key={index}
+              onClick={() => handleLinkClick(link.name)}
+              className='flex items-center gap-2'
+            >
+              <span className='material-symbols-outlined'>{link.icon}</span>
+              {link.name}
             </li>
           ))}
         </ul>
