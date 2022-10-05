@@ -65,10 +65,7 @@ export const Navigation = () => {
       </nav>
       {/* Mobile Nav */}
       <nav className={mobileHeaderClasses}>
-        <span
-          className='text-4xl material-symbols-outlined'
-          onClick={scrollToTop}
-        >
+        <span className='material-symbols-outlined large' onClick={scrollToTop}>
           home
         </span>
         <MobileNavButton />
@@ -97,7 +94,7 @@ const MobileNavButton = () => {
   return (
     <>
       <span
-        className='fixed text-4xl right-2 top-2 material-symbols-outlined'
+        className='fixed right-2 top-2 material-symbols-outlined large'
         onClick={toggleDrawer}
         ref={btnRef}
       >
@@ -122,7 +119,9 @@ const MobileNavButton = () => {
               onClick={() => handleLinkClick(link.name)}
               className='flex items-center gap-2'
             >
-              <span className='material-symbols-outlined'>{link.icon}</span>
+              <span className='material-symbols-outlined large'>
+                {link.icon}
+              </span>
               {link.name}
             </li>
           ))}
