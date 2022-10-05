@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer'
 import { google } from 'googleapis'
+import { getTruncatedDateStr } from '../../utils'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 const OAuth2 = google.auth.OAuth2
@@ -14,7 +15,7 @@ oauth2Client.setCredentials({
   refresh_token: process.env.REFRESH_TOKEN
 })
 
-type RequestBody = {
+export type EmailRequestBody = {
   email: string
   name: string
   phone?: string
@@ -23,17 +24,17 @@ type RequestBody = {
   message: string
 }
 
-type Response = {
+export type EmailResponseBody = {
   message: string
 }
 
 const sendEmail = async (
   req: NextApiRequest,
-  res: NextApiResponse<Response>
+  res: NextApiResponse<EmailResponseBody>
 ) => {
   if (req.method === 'POST') {
     const { email, name, phone, deliveryDate, cookieCount, message } =
-      req.body as RequestBody
+      req.body as EmailRequestBody
 
     try {
       const accessToken = oauth2Client.getAccessToken()
@@ -58,17 +59,19 @@ const sendEmail = async (
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ''}
-        <p><strong>Date:</strong> ${new Date(deliveryDate).toDateString()}</p>
+        <p><strong>Date:</strong> ${getTruncatedDateStr(
+          new Date(deliveryDate)
+        )}</p>
         <p><strong>Number of Cookies:</strong> ${cookieCount}</p>
         <p><strong>Message:</strong> ${message}</p>
       `
       })
 
       transporter.close()
-      res.status(200).json({ message: 'Message sent' })
+      res.status(200).json({ message: 'Order placed successfully' })
     } catch (err) {
       console.error(err)
-      res.status(500).json({ message: 'Message failed to send' })
+      res.status(500).json({ message: 'Order failed to send' })
     }
   } else {
     res.status(405).json({ message: 'Only POST requests allowed' })
