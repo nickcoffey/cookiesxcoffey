@@ -76,6 +76,7 @@ export const OrderSection = () => {
   }
 
   const phoneWatch = watch('phone')
+  const deliveryDateWatch = watch('deliveryDate')
 
   return (
     <section className='p-4 pt-0 mt-4'>
@@ -124,6 +125,7 @@ export const OrderSection = () => {
             ...register('deliveryDate'),
             type: 'date'
           }}
+          watchedValue={deliveryDateWatch}
           required
         />
         <Input

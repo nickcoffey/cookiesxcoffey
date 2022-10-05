@@ -24,6 +24,7 @@ type BaseProps = {
     TextareaHTMLAttributes<HTMLTextAreaElement>,
     'className' | 'style'
   >
+  watchedValue?: unknown
 }
 
 type Props = RequireOnlyOne<BaseProps, 'inputProps' | 'textAreaProps'>
@@ -34,12 +35,12 @@ export const Input = ({
   errorMsg,
   required,
   inputProps,
-  textAreaProps
+  textAreaProps,
+  watchedValue
 }: Props) => {
   // fixes spacing on empty ios date inputs
-  console.log({ inputProps })
   const inputClasses = classNames('w-full h-full py-2 outline-none', {
-    empty: inputProps?.type === 'date' && !inputProps?.value
+    empty: inputProps?.type === 'date' && !watchedValue
   })
 
   return (
