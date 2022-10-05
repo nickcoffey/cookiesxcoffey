@@ -18,6 +18,9 @@ input[type='date'] {
   input[type='date'] {
     @apply my-2;
   }
+  input[type='date'].empty {
+    @apply my-3;
+  }
 }
 
 /* removes yellow from inputs */

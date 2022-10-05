@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import TextareaAutosize from 'react-textarea-autosize'
 import type { InputHTMLAttributes, TextareaHTMLAttributes } from 'react'
 
@@ -35,6 +36,11 @@ export const Input = ({
   inputProps,
   textAreaProps
 }: Props) => {
+  // fixes spacing on empty ios date inputs
+  const inputClasses = classNames('w-full h-full py-2 outline-none', {
+    empty: inputProps?.type === 'date' && !inputProps?.value
+  })
+
   return (
     <div className='flex flex-col gap-1 group'>
       <label className='text-sm text-primary group-focus-within:text-darkprimary'>
@@ -54,7 +60,7 @@ export const Input = ({
       ) : (
         <div className='flex items-center gap-2 px-2 bg-white rounded-md group-focus-within:ring ring-1 ring-darkprimary'>
           {icon && <span className='material-symbols-outlined'>{icon}</span>}
-          <input className='w-full h-full py-2 outline-none' {...inputProps} />
+          <input className={inputClasses} {...inputProps} />
         </div>
       )}
       {errorMsg && (
