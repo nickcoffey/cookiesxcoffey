@@ -1,6 +1,6 @@
 export const AboutSection = () => {
   return (
-    <div id='about' className='p-4 pt-0 mt-4'>
+    <section id='about' className='p-4 pt-0 mt-4'>
       <h2 className='mb-4 text-3xl text-center text-darkprimary'>About Me</h2>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi aut modi
@@ -60,6 +60,6 @@ export const AboutSection = () => {
         repellendus nam impedit! Architecto, neque omnis? Quisquam, error!
         Itaque?
       </p>
-    </div>
+    </section>
   )
 }

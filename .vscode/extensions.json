@@ -9,6 +9,7 @@
     "bradlc.vscode-tailwindcss",
     "eamodio.gitlens",
     "ms-vscode-remote.vscode-remote-extensionpack",
-    "vscode-icons-team.vscode-icons"
+    "vscode-icons-team.vscode-icons",
+    "wayou.vscode-todo-highlight"
   ]
 }

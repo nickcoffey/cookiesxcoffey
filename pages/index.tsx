@@ -1,5 +1,10 @@
 import Head from 'next/head'
-import { Navigation, OrderSection, AboutSection } from '../components'
+import {
+  Navigation,
+  AboutSection,
+  GallerySection,
+  OrderSection
+} from '../components'
 import type { NextPage } from 'next'
 
 const Home: NextPage = () => {
@@ -11,6 +16,7 @@ const Home: NextPage = () => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <Navigation />
+      {/* TODO: add image optimization */}
       <header className="flex items-center justify-center bg-[url('/header.jpg')] bg-cover h-[50vh]">
         <h1 className='p-4 text-4xl rounded-md font-extralight bg-primary'>
           Cookies by Coffey
@@ -18,6 +24,7 @@ const Home: NextPage = () => {
       </header>
       <main>
         <AboutSection />
+        <GallerySection />
         <OrderSection />
       </main>
     </>

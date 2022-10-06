@@ -3,12 +3,13 @@ import classNames from 'classnames'
 import { Transition } from '@headlessui/react'
 import { useOnClickOutside } from '../hooks'
 
-type LinkName = 'Home' | 'About' | 'Order'
+type LinkName = 'Home' | 'About' | 'Gallery' | 'Order'
 type Link = { name: LinkName; icon: string; id?: string }
 
 const links: Link[] = [
   { name: 'Home', icon: 'home' },
   { name: 'About', icon: 'person', id: 'about' },
+  { name: 'Gallery', icon: 'photo_library', id: 'gallery' },
   { name: 'Order', icon: 'mail', id: 'order' }
 ]
 
@@ -60,7 +61,7 @@ export const Navigation = () => {
   }, [])
 
   const baseHeaderClasses = classNames(
-    'fixed top-0 left-0 p-2 w-full transition duration-150',
+    'fixed top-0 left-0 p-2 z-10 w-full transition duration-150',
     {
       'bg-lightgrey shadow-lg text-black': navVisEnabled,
       'text-white': !navVisEnabled
@@ -75,7 +76,7 @@ export const Navigation = () => {
         {/* Desktop Nav */}
         {links.map((link, index) => (
           <a
-            className='md:flex items-start justify-center hidden gap-2 px-4 py-2 transition duration-150 rounded-md cursor-pointer select-none hover:text-black hover:bg-primary'
+            className='items-start justify-center hidden gap-2 px-4 py-2 transition duration-150 rounded-md cursor-pointer select-none md:flex hover:text-black hover:bg-primary'
             onClick={() => handleLinkClick(link.id)}
             key={index}
           >
@@ -125,7 +126,7 @@ const MobileNavButton = () => {
         leaveTo='opacity-0'
       >
         <ul
-          className='h-full fixed z-10 top-0 left-0 bg-[rgba(0,0,0,0.9)] pt-12 pl-6 pr-20 text-white text-xl flex flex-col gap-4'
+          className='h-full fixed z-20 top-0 left-0 bg-[rgba(0,0,0,0.9)] pt-12 pl-6 pr-20 text-white text-xl flex flex-col gap-4'
           ref={drawerRef}
         >
           {links.map((link, index) => (
