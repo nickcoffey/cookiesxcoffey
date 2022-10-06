@@ -174,7 +174,7 @@ const OrderButton = ({
   const { icon, text } = btnContent
   return (
     <button
-      className='flex items-center justify-center w-full gap-2 py-2 transition duration-150 rounded-md bg-primary disabled:cursor-not-allowed disabled:hover:bg-lightprimary disabled:bg-lightprimary md:hover:bg-darkprimary md:hover:text-white'
+      className='flex items-center justify-center w-full gap-2 py-3 mt-2 transition duration-150 rounded-md bg-primary disabled:cursor-not-allowed disabled:hover:bg-lightprimary disabled:bg-lightprimary md:hover:bg-darkprimary md:hover:text-white'
       disabled={isSubmitting || (isSubmitted && isSubmitSuccessful)}
       type='submit'
     >
