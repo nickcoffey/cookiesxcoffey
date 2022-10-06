@@ -84,10 +84,7 @@ export const Navigation = () => {
           </a>
         ))}
         {/* Mobile Nav */}
-        <span
-          className='material-symbols-outlined large lg:hidden'
-          onClick={scrollToTop}
-        >
+        <span className='material-symbols-outlined large' onClick={scrollToTop}>
           home
         </span>
         <MobileNavButton />

@@ -6,7 +6,7 @@
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
 }
 .material-symbols-outlined.large {
-  @apply text-4xl;
+  @apply text-4xl lg:hidden;
 }
 
 /* removes date icon from datepicker */
