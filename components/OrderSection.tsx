@@ -55,6 +55,8 @@ const schema = yup.object({
     .required('Please enter a brief message about your order.')
 })
 
+const EmptyGridSpace = () => <div className='hidden lg:block lg:col-span-1' />
+
 type Props = {
   className?: string
 }
@@ -118,7 +120,7 @@ export const OrderSection = ({ className }: Props) => {
             }
           }}
         />
-        <div className='lg:col-span-1' />
+        <EmptyGridSpace />
         <Input
           label='Delivery Date'
           icon='calendar_month'
@@ -146,7 +148,7 @@ export const OrderSection = ({ className }: Props) => {
             required
           />
         </div>
-        <div className='lg:col-span-1' />
+        <EmptyGridSpace />
         <div className='lg:col-span-1 lg:flex lg:justify-end'>
           <OrderButton {...{ isSubmitting, isSubmitSuccessful, isSubmitted }} />
         </div>
