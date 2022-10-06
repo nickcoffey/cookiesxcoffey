@@ -4,16 +4,42 @@ import { Transition } from '@headlessui/react'
 import { useOnClickOutside } from '../hooks'
 
 type LinkName = 'Home' | 'About' | 'Order'
-type Link = { name: LinkName; icon: string }
+type Link = { name: LinkName; icon: string; id?: string }
 
 const links: Link[] = [
   { name: 'Home', icon: 'home' },
-  { name: 'About', icon: 'person' },
-  { name: 'Order', icon: 'mail' }
+  { name: 'About', icon: 'person', id: 'about' },
+  { name: 'Order', icon: 'mail', id: 'order' }
 ]
 
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+function scrollToSection(id: string) {
+  const element = document.querySelector(`#${id}`)
+  const navbar = document.querySelector('#navbar')
+
+  if (element && navbar) {
+    // @ts-ignore
+    const navbarOffset = navbar.offsetHeight + 8
+    const elementPosition = element.getBoundingClientRect().top
+    const offsetTop = elementPosition + window.pageYOffset - navbarOffset
+    console.log({ offsetTop, navbarOffset, elementPosition })
+
+    window.scrollTo({
+      top: offsetTop,
+      behavior: 'smooth'
+    })
+  }
+}
+
+const handleLinkClick = (linkId?: string) => {
+  if (!linkId) {
+    scrollToTop()
+  } else {
+    scrollToSection(linkId)
+  }
 }
 
 export const Navigation = () => {
@@ -41,31 +67,27 @@ export const Navigation = () => {
     }
   )
 
-  const desktopHeaderClasses = classNames(
-    baseHeaderClasses,
-    'gap-8 hidden md:flex'
-  )
-
-  const mobileHeaderClasses = classNames(baseHeaderClasses, 'block md:hidden')
+  const headerClasses = classNames(baseHeaderClasses, 'block md:gap-8 md:flex')
 
   return (
     <>
-      {/* Desktop Nav */}
-      <nav className={desktopHeaderClasses}>
+      <nav className={headerClasses} id='navbar'>
+        {/* Desktop Nav */}
         {links.map((link, index) => (
           <a
-            className='flex items-start justify-center gap-2 px-4 py-2 transition duration-150 rounded-md cursor-pointer select-none hover:text-black hover:bg-primary'
-            onClick={() => link.name === 'Home' && scrollToTop()}
+            className='md:flex items-start justify-center hidden gap-2 px-4 py-2 transition duration-150 rounded-md cursor-pointer select-none hover:text-black hover:bg-primary'
+            onClick={() => handleLinkClick(link.id)}
             key={index}
           >
             <span className='material-symbols-outlined'>{link.icon}</span>
             {link.name}
           </a>
         ))}
-      </nav>
-      {/* Mobile Nav */}
-      <nav className={mobileHeaderClasses}>
-        <span className='material-symbols-outlined large' onClick={scrollToTop}>
+        {/* Mobile Nav */}
+        <span
+          className='material-symbols-outlined large md:hidden'
+          onClick={scrollToTop}
+        >
           home
         </span>
         <MobileNavButton />
@@ -84,17 +106,10 @@ const MobileNavButton = () => {
   const toggleDrawer = () =>
     isDrawerOpen ? setIsDrawerOpen(false) : setIsDrawerOpen(true)
 
-  const handleLinkClick = (linkName: LinkName) => {
-    if (linkName === 'Home') {
-      scrollToTop()
-      setIsDrawerOpen(false)
-    }
-  }
-
   return (
     <>
       <span
-        className='fixed right-2 top-2 material-symbols-outlined large'
+        className='fixed right-2 top-2 material-symbols-outlined large md:hidden'
         onClick={toggleDrawer}
         ref={btnRef}
       >
@@ -116,7 +131,10 @@ const MobileNavButton = () => {
           {links.map((link, index) => (
             <li
               key={index}
-              onClick={() => handleLinkClick(link.name)}
+              onClick={() => {
+                setIsDrawerOpen(false)
+                handleLinkClick(link.id)
+              }}
               className='flex items-center gap-2'
             >
               <span className='material-symbols-outlined large'>

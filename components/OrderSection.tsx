@@ -79,7 +79,7 @@ export const OrderSection = () => {
   const deliveryDateWatch = watch('deliveryDate')
 
   return (
-    <section className='p-4 pt-0 mt-4'>
+    <section className='p-4 pt-0 mt-4' id='order'>
       <h2 className='mb-4 text-3xl text-center text-darkprimary'>
         Place an Order
       </h2>
