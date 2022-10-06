@@ -23,10 +23,10 @@ input[type='date'] {
 /* iOS only */
 @supports (-webkit-touch-callout: none) {
   input[type='date'] {
-    @apply my-3;
+    @apply my-2;
   }
   input[type='date'].empty {
-    @apply my-4;
+    @apply my-3;
   }
 }
 
