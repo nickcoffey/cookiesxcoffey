@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { Input } from '../components'
+import { Input, Section } from '.'
 import { maskPhone, removePhoneMask, httpPost } from '../utils'
 import type { ChangeEvent } from 'react'
 import type {
@@ -55,7 +55,11 @@ const schema = yup.object({
     .required('Please enter a brief message about your order.')
 })
 
-export const OrderSection = () => {
+type Props = {
+  className?: string
+}
+
+export const OrderSection = ({ className }: Props) => {
   const formRef = useRef<HTMLFormElement>(null)
 
   const {
@@ -79,13 +83,10 @@ export const OrderSection = () => {
   const deliveryDateWatch = watch('deliveryDate')
 
   return (
-    <section id='order' className='p-4 pt-0 mt-4'>
-      <h2 className='mb-4 text-3xl text-center text-darkprimary'>
-        Place an Order
-      </h2>
+    <Section id='order' header='Place an Order' className={className}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='flex flex-col gap-4'
+        className='grid gap-4 lg:grid-cols-2'
         ref={formRef}
       >
         <Input
@@ -117,6 +118,7 @@ export const OrderSection = () => {
             }
           }}
         />
+        <div className='lg:col-span-1' />
         <Input
           label='Delivery Date'
           icon='calendar_month'
@@ -135,16 +137,21 @@ export const OrderSection = () => {
           inputProps={{ ...register('cookieCount'), type: 'number' }}
           required
         />
-        <Input
-          label='Message'
-          icon='chat'
-          errorMsg={errors.message?.message}
-          textAreaProps={register('message')}
-          required
-        />
-        <OrderButton {...{ isSubmitting, isSubmitSuccessful, isSubmitted }} />
+        <div className='lg:col-span-2'>
+          <Input
+            label='Message'
+            icon='chat'
+            errorMsg={errors.message?.message}
+            textAreaProps={register('message')}
+            required
+          />
+        </div>
+        <div className='lg:col-span-1' />
+        <div className='lg:col-span-1 lg:flex lg:justify-end'>
+          <OrderButton {...{ isSubmitting, isSubmitSuccessful, isSubmitted }} />
+        </div>
       </form>
-    </section>
+    </Section>
   )
 }
 
@@ -174,7 +181,7 @@ const OrderButton = ({
   const { icon, text } = btnContent
   return (
     <button
-      className='flex items-center justify-center w-full gap-2 py-3 mt-2 transition duration-150 rounded-md bg-primary disabled:cursor-not-allowed disabled:hover:bg-lightprimary disabled:bg-lightprimary md:hover:bg-darkprimary md:hover:text-white'
+      className='flex items-center justify-center w-full gap-2 py-3 mt-2 transition duration-150 rounded-md bg-primary disabled:cursor-not-allowed disabled:hover:bg-lightprimary disabled:bg-lightprimary lg:hover:bg-darkprimary lg:hover:text-white lg:w-1/2'
       disabled={isSubmitting || (isSubmitted && isSubmitSuccessful)}
       type='submit'
     >

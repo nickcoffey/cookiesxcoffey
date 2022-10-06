@@ -1,4 +1,6 @@
 import Image from 'next/image'
+import { Section } from '.'
+
 import babyPic from '../public/posts/baby.jpg'
 import baby2Pic from '../public/posts/baby2.jpg'
 import birthdayPic from '../public/posts/birthday.jpg'
@@ -23,15 +25,12 @@ const posts = [
 
 export const GallerySection = () => {
   return (
-    <section id='gallery' className='p-4 pt-0 mt-4'>
-      <h2 className='mb-4 text-3xl text-center text-darkprimary'>Gallery</h2>
-      <div className='grid gap-4 md:grid-cols-3'>
+    <Section id='gallery' header='Gallery'>
+      <div className='grid gap-4 lg:grid-cols-3'>
         {posts.map((post, index) => (
-          <div key={index}>
-            <Image src={post} alt='Post' className='rounded-xl' />
-          </div>
+          <Image src={post} alt='Post' className='rounded-xl' key={index} />
         ))}
       </div>
-    </section>
+    </Section>
   )
 }

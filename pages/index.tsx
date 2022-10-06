@@ -22,10 +22,10 @@ const Home: NextPage = () => {
           Cookies by Coffey
         </h1>
       </header>
-      <main>
+      <main className='grid gap-8 p-4 lg:py-8 lg:px-24 xl:px-48 lg:grid-cols-2'>
         <AboutSection />
         <GallerySection />
-        <OrderSection />
+        <OrderSection className='lg:col-span-2' />
       </main>
     </>
   )

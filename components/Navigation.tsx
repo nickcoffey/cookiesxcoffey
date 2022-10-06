@@ -26,7 +26,6 @@ function scrollToSection(id: string) {
     const navbarOffset = navbar.offsetHeight + 8
     const elementPosition = element.getBoundingClientRect().top
     const offsetTop = elementPosition + window.pageYOffset - navbarOffset
-    console.log({ offsetTop, navbarOffset, elementPosition })
 
     window.scrollTo({
       top: offsetTop,
@@ -68,7 +67,7 @@ export const Navigation = () => {
     }
   )
 
-  const headerClasses = classNames(baseHeaderClasses, 'block md:gap-8 md:flex')
+  const headerClasses = classNames(baseHeaderClasses, 'block lg:gap-8 lg:flex')
 
   return (
     <>
@@ -76,7 +75,7 @@ export const Navigation = () => {
         {/* Desktop Nav */}
         {links.map((link, index) => (
           <a
-            className='items-start justify-center hidden gap-2 px-4 py-2 transition duration-150 rounded-md cursor-pointer select-none md:flex hover:text-black hover:bg-primary'
+            className='items-start justify-center hidden gap-2 px-4 py-2 transition duration-150 rounded-md cursor-pointer select-none lg:flex hover:text-black hover:bg-primary'
             onClick={() => handleLinkClick(link.id)}
             key={index}
           >
@@ -86,7 +85,7 @@ export const Navigation = () => {
         ))}
         {/* Mobile Nav */}
         <span
-          className='material-symbols-outlined large md:hidden'
+          className='material-symbols-outlined large lg:hidden'
           onClick={scrollToTop}
         >
           home
@@ -110,7 +109,7 @@ const MobileNavButton = () => {
   return (
     <>
       <span
-        className='fixed right-2 top-2 material-symbols-outlined large md:hidden'
+        className='fixed right-2 top-2 material-symbols-outlined large lg:hidden'
         onClick={toggleDrawer}
         ref={btnRef}
       >

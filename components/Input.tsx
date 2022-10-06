@@ -56,6 +56,7 @@ export const Input = ({
           )}
           <TextareaAutosize
             className='w-full h-full py-2 outline-none resize-none'
+            minRows={3}
             {...textAreaProps}
           />
         </div>
