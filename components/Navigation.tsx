@@ -47,10 +47,10 @@ export const Navigation = () => {
 
   useEffect(() => {
     window.onscroll = () => {
-      const scrollHeight = 100
+      const scrollHeight = 0
       if (
-        document.body.scrollTop > scrollHeight ||
-        document.documentElement.scrollTop > scrollHeight
+        document.body.scrollTop !== scrollHeight ||
+        document.documentElement.scrollTop !== scrollHeight
       ) {
         setNavVisEnabled(true)
       } else {
