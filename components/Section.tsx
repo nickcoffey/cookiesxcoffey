@@ -10,7 +10,7 @@ type Props = {
 export const Section = ({ id, header, className, children }: Props) => {
   return (
     <section id={id} className={className}>
-      <h2 className='mb-4 text-3xl text-center lg:text-left text-darkprimary'>
+      <h2 className='mb-4 tracking-normal text-center text-8xl lg:text-left text-darkprimary font-bdscript'>
         {header}
       </h2>
       {children}

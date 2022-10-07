@@ -62,7 +62,7 @@ export const Navigation = forwardRef<HTMLElement>((_props, ref) => {
   const navClasses = classNames(
     'fixed top-0 left-0 p-2 z-10 w-full transition duration-150 block text-black lg:gap-8 lg:flex',
     {
-      'bg-lightgrey shadow-lg': navVisEnabled
+      'bg-white shadow-lg': navVisEnabled
     }
   )
 

@@ -47,7 +47,6 @@ export const Input = ({
     <div className='flex flex-col gap-1 group'>
       <label className='text-sm text-primary group-focus-within:text-darkprimary'>
         {label}
-        {required && '*'}
       </label>
       {textAreaProps ? (
         <div className='flex gap-2 px-2 py-1 bg-white rounded-md group-focus-within:ring ring-1 ring-darkprimary'>

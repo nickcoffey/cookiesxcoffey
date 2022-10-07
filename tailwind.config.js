@@ -8,18 +8,19 @@ module.exports = {
   theme: {
     // original theme
     // https://coolors.co/ccd5ae-e9edc9-fefae0-b98b82-e4959e
+    // current theme
+    // https://coolors.co/57886c-466060-fcdfc1-dbb68f-bb7e5d
     colors: {
-      primary: '#a6a6ff',
-      darkprimary: '#6e6eff',
-      lightprimary: '#c8c8fa',
+      primary: '#dbb68f',
+      darkprimary: '#bb7e5d',
+      lightprimary: '#fcdfc1',
       black: '#000000',
-      white: '#ffffff',
-      lightgrey: '#f5f5f5'
+      white: '#ffffff'
     },
     fontFamily: {
-      sans: ['Poppins', 'sans-serif']
-    },
-    extend: {}
+      sans: ['The Seasons', 'serif'],
+      bdscript: ['BD Script', 'cursive']
+    }
   },
   plugins: []
 }

@@ -59,7 +59,7 @@ const Home: NextPage = () => {
       </Head>
       <Navigation ref={navRef} />
       <header
-        className='flex items-end justify-center bg-lightgrey bg-cover h-[50vh]'
+        className='flex items-end justify-center h-[50vh]'
         ref={headerRef}
       >
         <Image src={logoPic} alt='Logo' height={iconHeight} />
