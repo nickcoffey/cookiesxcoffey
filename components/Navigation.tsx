@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, forwardRef } from 'react'
 import classNames from 'classnames'
 import { Transition } from '@headlessui/react'
 import { useOnClickOutside } from '../hooks'
@@ -42,7 +42,7 @@ const handleLinkClick = (linkId?: string) => {
   }
 }
 
-export const Navigation = () => {
+export const Navigation = forwardRef<HTMLElement>((_props, ref) => {
   const [navVisEnabled, setNavVisEnabled] = useState(false)
 
   useEffect(() => {
@@ -59,39 +59,36 @@ export const Navigation = () => {
     }
   }, [])
 
-  const baseHeaderClasses = classNames(
-    'fixed top-0 left-0 p-2 z-10 w-full transition duration-150',
+  const navClasses = classNames(
+    'fixed top-0 left-0 p-2 z-10 w-full transition duration-150 block text-black lg:gap-8 lg:flex',
     {
-      'bg-lightgrey shadow-lg text-black': navVisEnabled,
-      'text-white': !navVisEnabled
+      'bg-lightgrey shadow-lg': navVisEnabled
     }
   )
 
-  const headerClasses = classNames(baseHeaderClasses, 'block lg:gap-8 lg:flex')
-
   return (
-    <>
-      <nav className={headerClasses} id='navbar'>
-        {/* Desktop Nav */}
-        {links.map((link, index) => (
-          <a
-            className='items-start justify-center hidden gap-2 px-4 py-2 transition duration-150 rounded-md cursor-pointer select-none lg:flex hover:text-black hover:bg-primary'
-            onClick={() => handleLinkClick(link.id)}
-            key={index}
-          >
-            <span className='material-symbols-outlined'>{link.icon}</span>
-            {link.name}
-          </a>
-        ))}
-        {/* Mobile Nav */}
-        <span className='material-symbols-outlined large' onClick={scrollToTop}>
-          home
-        </span>
-        <MobileNavButton />
-      </nav>
-    </>
+    <nav className={navClasses} id='navbar' ref={ref}>
+      {/* Desktop Nav */}
+      {links.map((link, index) => (
+        <a
+          className='items-start justify-center hidden gap-2 px-4 py-2 transition duration-150 rounded-md cursor-pointer select-none lg:flex hover:text-black hover:bg-primary'
+          onClick={() => handleLinkClick(link.id)}
+          key={index}
+        >
+          <span className='material-symbols-outlined'>{link.icon}</span>
+          {link.name}
+        </a>
+      ))}
+      {/* Mobile Nav */}
+      <span className='material-symbols-outlined large' onClick={scrollToTop}>
+        home
+      </span>
+      <MobileNavButton />
+    </nav>
   )
-}
+})
+
+Navigation.displayName = 'Navigation'
 
 const MobileNavButton = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
