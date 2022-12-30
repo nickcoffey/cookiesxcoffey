@@ -33,7 +33,6 @@ export const Input = ({
   label,
   icon,
   errorMsg,
-  required,
   inputProps,
   textAreaProps,
   watchedValue

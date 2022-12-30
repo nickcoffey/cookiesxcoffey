@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect, useState, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import {
@@ -42,12 +42,9 @@ const Home: NextPage = () => {
     if (refNavHeight && refHeaderHeight) {
       setIconHeight(refHeaderHeight - refNavHeight)
     }
-  }, [])
 
-  useLayoutEffect(() => {
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
