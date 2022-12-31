@@ -1,5 +1,6 @@
 import { useRef, useState, forwardRef } from 'react'
 import Image from 'next/image'
+import { Transition } from '@headlessui/react'
 import classNames from 'classnames'
 import { useOnClickOutside } from '../hooks'
 import { posts } from '.'
@@ -30,12 +31,20 @@ export const DesktopGallery = (props: DesktopGalleryProps) => {
           />
         ))}
       </div>
-      {showFullscreenPost && (
+      <Transition
+        show={showFullscreenPost}
+        enter='transition duration-150'
+        enterFrom='opacity-0'
+        enterTo='opacity-100'
+        leave='transition duration-150'
+        leaveFrom='opacity-100'
+        leaveTo='opacity-0'
+      >
         <FullscreenCarousel
           setShowFullscreenPost={setShowFullscreenPost}
           {...props}
         />
-      )}
+      </Transition>
     </>
   )
 }
