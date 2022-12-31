@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import Image from 'next/image'
-import classNames from 'classnames'
+import { MobileGallery } from './MobileGallery'
+import { DesktopGallery } from './DesktopGallery'
 import { Section } from '.'
 
 import babyPic from '../public/posts/baby.jpg'
@@ -13,7 +13,7 @@ import potterPic from '../public/posts/potter.jpg'
 import potter2Pic from '../public/posts/potter2.jpg'
 import potter3Pic from '../public/posts/potter3.jpg'
 
-const posts = [
+export const posts = [
   babyPic,
   baby2Pic,
   birthdayPic,
@@ -25,6 +25,20 @@ const posts = [
   potter3Pic
 ]
 
+export type CommonGalleryProps = {
+  postIndex: number
+  goToNextPost: () => void
+  goToPrevPost: () => void
+  atFirstPost: boolean
+  atLastPost: boolean
+}
+
+export type GalleryButtonProps = {
+  side: 'left' | 'right'
+  onClick: () => void
+  disabled: boolean
+}
+
 export const GallerySection = () => {
   const [postIndex, setPostIndex] = useState(0)
 
@@ -34,53 +48,18 @@ export const GallerySection = () => {
   const goToNextPost = () => setPostIndex(postIndex + 1)
   const goToPrevPost = () => setPostIndex(postIndex - 1)
 
+  const commonGalleryProps = {
+    postIndex,
+    goToNextPost,
+    goToPrevPost,
+    atFirstPost,
+    atLastPost
+  }
+
   return (
     <Section id='gallery' header='Gallery'>
-      {/* Mobile Gallery */}
-      <div className='relative flex items-center lg:hidden'>
-        <div className='absolute z-10 flex items-center justify-between w-full'>
-          <GalleryButton
-            side='left'
-            onClick={goToPrevPost}
-            disabled={atFirstPost}
-          />
-          <GalleryButton
-            side='right'
-            onClick={goToNextPost}
-            disabled={atLastPost}
-          />
-        </div>
-        <Image
-          src={posts[postIndex]}
-          alt='Post'
-          className='absolute top-0 rounded-xl'
-        />
-      </div>
-      {/* Desktop Gallery */}
-      <div className='hidden grid-cols-3 gap-4 lg:grid'>
-        {posts.map((post, index) => (
-          <Image src={post} alt='Post' className='rounded-xl' key={index} />
-        ))}
-      </div>
+      <MobileGallery {...commonGalleryProps} />
+      <DesktopGallery setPostIndex={setPostIndex} {...commonGalleryProps} />
     </Section>
-  )
-}
-
-type GalleryButtonProps = {
-  side: 'left' | 'right'
-  onClick: () => void
-  disabled: boolean
-}
-
-const GalleryButton = ({ side, ...props }: GalleryButtonProps) => {
-  const classes = classNames(
-    'flex items-center text-white bg-black opacity-100 bg-opacity-70 disabled:opacity-30',
-    side === 'left' ? 'rounded-r-md' : 'rounded-l-md'
-  )
-
-  return (
-    <button className={classes} {...props}>
-      <span className='material-symbols-outlined large'>{`chevron_${side}`}</span>
-    </button>
   )
 }
