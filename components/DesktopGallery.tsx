@@ -71,7 +71,7 @@ const FullscreenCarousel = ({
         onClick={() => setShowFullscreenPost(false)}
         className='fixed flex items-center px-2 py-1 text-white transition duration-150 bg-black bg-opacity-50 rounded-md cursor-pointer top-4 right-4 hover:bg-opacity-100'
       >
-        <span className='text-3xl material-symbols-outlined'>close</span>
+        <span className='material-symbols-outlined size-3xl'>close</span>
       </button>
       <GalleryButton
         side='left'
@@ -107,7 +107,7 @@ const GalleryButton = forwardRef<HTMLSpanElement, GalleryButtonProps>(
     return (
       <button type='button' className={classes} {...props}>
         <span
-          className='text-5xl material-symbols-outlined'
+          className='material-symbols-outlined size-5xl'
           ref={ref}
         >{`chevron_${side}`}</span>
       </button>

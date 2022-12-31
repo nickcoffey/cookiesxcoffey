@@ -19,6 +19,13 @@
   @apply text-4xl lg:hidden;
 }
 
+.material-symbols-outlined.size-3xl {
+  @apply text-3xl;
+}
+.material-symbols-outlined.size-5xl {
+  @apply text-5xl;
+}
+
 /* removes date icon from datepicker */
 input[type='date']::-webkit-calendar-picker-indicator {
   display: none;
