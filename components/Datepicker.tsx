@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDayzed } from 'dayzed'
-import { Popover } from '@headlessui/react'
+import { Popover, Transition } from '@headlessui/react'
 import { usePopper } from 'react-popper'
 import classNames from 'classnames'
 import { Input } from './Input'
@@ -38,18 +38,27 @@ export const Datepicker = ({ setValue, ...props }: DatepickerProps) => {
       >
         <Input {...props} />
       </Popover.Button>
-      <Popover.Panel
-        // @ts-ignore
-        ref={setPopperElement}
-        style={styles.popper}
-        {...attributes.popper}
-        className='bg-white'
+      <Transition
+        enter='transition duration-150 ease-out'
+        enterFrom='transform scale-95 opacity-0'
+        enterTo='transform scale-100 opacity-100'
+        leave='transition duration-150 ease-out'
+        leaveFrom='transform scale-100 opacity-100'
+        leaveTo='transform scale-95 opacity-0'
       >
-        <DateDialog
-          selected={date}
-          onDateSelected={date => setDate(date.date)}
-        />
-      </Popover.Panel>
+        <Popover.Panel
+          // @ts-ignore
+          ref={setPopperElement}
+          style={styles.popper}
+          {...attributes.popper}
+          className='bg-white'
+        >
+          <DateDialog
+            selected={date}
+            onDateSelected={date => setDate(date.date)}
+          />
+        </Popover.Panel>
+      </Transition>
     </Popover>
   )
 }
