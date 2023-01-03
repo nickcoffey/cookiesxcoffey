@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { Input, Section } from '.'
+import { Input, Section, Datepicker } from '.'
 import { maskPhone, removePhoneMask, httpPost } from '../utils'
 import type { ChangeEvent } from 'react'
 import type {
@@ -10,11 +10,11 @@ import type {
   EmailResponseBody
 } from '../pages/api/sendEmail'
 
-type Inputs = {
+export type OrderInputs = {
   name: string
   email: string
   phone: string
-  deliveryDate: Date
+  deliveryDate: string
   cookieCount: number
   message: string
 }
@@ -71,9 +71,9 @@ export const OrderSection = ({ className }: Props) => {
     watch,
     setValue,
     reset
-  } = useForm<Inputs>({ mode: 'onSubmit', resolver: yupResolver(schema) })
+  } = useForm<OrderInputs>({ mode: 'onSubmit', resolver: yupResolver(schema) })
 
-  const onSubmit: SubmitHandler<Inputs> = async data => {
+  const onSubmit: SubmitHandler<OrderInputs> = async data => {
     await httpPost<EmailRequestBody, EmailResponseBody>('api/sendEmail', data)
   }
 
@@ -82,7 +82,6 @@ export const OrderSection = ({ className }: Props) => {
   }
 
   const phoneWatch = watch('phone')
-  const deliveryDateWatch = watch('deliveryDate')
 
   return (
     <Section id='order' header='Place an Order' className={className}>
@@ -121,15 +120,12 @@ export const OrderSection = ({ className }: Props) => {
           }}
         />
         <EmptyGridSpace />
-        <Input
+        <Datepicker
           label='Delivery Date'
           icon='calendar_month'
           errorMsg={errors.deliveryDate?.message}
-          inputProps={{
-            ...register('deliveryDate'),
-            type: 'date'
-          }}
-          watchedValue={deliveryDateWatch}
+          inputProps={register('deliveryDate')}
+          setValue={setValue}
           required
         />
         <Input

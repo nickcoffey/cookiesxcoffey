@@ -26,27 +26,6 @@
   @apply text-5xl;
 }
 
-/* removes date icon from datepicker */
-input[type='date']::-webkit-calendar-picker-indicator {
-  display: none;
-  -webkit-appearance: none;
-}
-
-/* stops weird safari date styling */
-input[type='date'] {
-  -webkit-appearance: textfield;
-  -moz-appearance: textfield;
-}
-/* iOS only */
-@supports (-webkit-touch-callout: none) {
-  input[type='date'] {
-    @apply my-2;
-  }
-  input[type='date'].empty {
-    @apply my-3;
-  }
-}
-
 /* removes yellow from inputs */
 input:-webkit-autofill {
   box-shadow: inset 0 0 0px 9999px white;

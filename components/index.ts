@@ -1,6 +1,7 @@
 export * from './AboutSection'
 export * from './GallerySection'
 export * from './Input'
+export * from './Datepicker'
 export * from './Navigation'
 export * from './OrderSection'
 export * from './Section'

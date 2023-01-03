@@ -19,7 +19,7 @@ export type EmailRequestBody = {
   email: string
   name: string
   phone?: string
-  deliveryDate: Date
+  deliveryDate: string
   cookieCount: number
   message: string
 }
