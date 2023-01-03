@@ -34,6 +34,7 @@ export const Datepicker = ({ setValue, ...props }: DatepickerProps) => {
         // @ts-ignore
         ref={setReferenceElement}
         className='w-full tracking-widest text-left outline-none'
+        as='div'
       >
         <Input {...props} />
       </Popover.Button>
