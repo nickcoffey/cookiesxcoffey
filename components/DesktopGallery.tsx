@@ -2,6 +2,9 @@ import { useRef, useState, forwardRef } from 'react'
 import Image from 'next/image'
 import { Transition } from '@headlessui/react'
 import classNames from 'classnames'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeftOutlined'
+import ChevronRightIcon from '@mui/icons-material/ChevronRightOutlined'
+import CloseIcon from '@mui/icons-material/CloseOutlined'
 import { useOnClickOutside } from '../hooks'
 import { posts } from '.'
 import type { CommonGalleryProps, GalleryButtonProps } from './GallerySection'
@@ -61,8 +64,8 @@ const FullscreenCarousel = ({
   atLastPost,
   setShowFullscreenPost
 }: FullscreenCarouselProps) => {
-  const leftBtnRef = useRef<HTMLSpanElement>(null)
-  const rightBtnRef = useRef<HTMLSpanElement>(null)
+  const leftBtnRef = useRef<SVGSVGElement>(null)
+  const rightBtnRef = useRef<SVGSVGElement>(null)
   const imgRef = useRef<HTMLSpanElement>(null)
 
   useOnClickOutside(
@@ -80,7 +83,7 @@ const FullscreenCarousel = ({
         onClick={() => setShowFullscreenPost(false)}
         className='fixed flex items-center px-2 py-1 text-white transition duration-150 bg-black bg-opacity-50 rounded-md cursor-pointer top-4 right-4 hover:bg-opacity-100'
       >
-        <span className='material-symbols-outlined size-3xl'>close</span>
+        <CloseIcon className='text-3xl' />
       </button>
       <GalleryButton
         side='left'
@@ -106,7 +109,7 @@ const FullscreenCarousel = ({
   )
 }
 
-const GalleryButton = forwardRef<HTMLSpanElement, GalleryButtonProps>(
+const GalleryButton = forwardRef<SVGSVGElement, GalleryButtonProps>(
   ({ side, ...props }: GalleryButtonProps, ref) => {
     const classes = classNames(
       'fixed flex items-center text-white bg-black rounded-md transition duration-150 bg-opacity-50 hover:bg-opacity-100 disabled:opacity-30 disabled:bg-opacity-100 disabled:cursor-not-allowed',
@@ -115,10 +118,7 @@ const GalleryButton = forwardRef<HTMLSpanElement, GalleryButtonProps>(
 
     return (
       <button type='button' className={classes} {...props}>
-        <span
-          className='material-symbols-outlined size-5xl'
-          ref={ref}
-        >{`chevron_${side}`}</span>
+        {side === 'left' ? <ChevronLeftIcon className='text-5xl' ref={ref} /> : <ChevronRightIcon className='text-5xl' ref={ref} />}
       </button>
     )
   }

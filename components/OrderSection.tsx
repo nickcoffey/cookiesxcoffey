@@ -2,6 +2,16 @@ import { useRef } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import PersonIcon from '@mui/icons-material/PersonOutlined'
+import EmailIcon from '@mui/icons-material/EmailOutlined'
+import LocalPhoneIcon from '@mui/icons-material/LocalPhoneOutlined'
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonthOutlined'
+import TagIcon from '@mui/icons-material/TagOutlined'
+import ChatIcon from '@mui/icons-material/ChatOutlined'
+import SendIcon from '@mui/icons-material/SendOutlined'
+import SyncIcon from '@mui/icons-material/SyncOutlined'
+import WarningIcon from '@mui/icons-material/WarningOutlined'
+import CheckIcon from '@mui/icons-material/CheckOutlined'
 import { Input, Section, Datepicker } from '.'
 import { maskPhone, removePhoneMask, httpPost } from '../utils'
 import type { ChangeEvent } from 'react'
@@ -9,6 +19,7 @@ import type {
   EmailRequestBody,
   EmailResponseBody
 } from '../pages/api/sendEmail'
+import type { Icon } from '../types'
 
 export type OrderInputs = {
   name: string
@@ -92,21 +103,21 @@ export const OrderSection = ({ className }: Props) => {
       >
         <Input
           label='Name'
-          icon='person'
+          Icon={PersonIcon}
           errorMsg={errors.name?.message}
           inputProps={register('name')}
           required
         />
         <Input
           label='Email'
-          icon='email'
+          Icon={EmailIcon}
           errorMsg={errors.email?.message}
           inputProps={register('email')}
           required
         />
         <Input
           label='Phone'
-          icon='phone'
+          Icon={LocalPhoneIcon}
           errorMsg={errors.phone?.message}
           inputProps={{
             ...register('phone'),
@@ -122,7 +133,7 @@ export const OrderSection = ({ className }: Props) => {
         <EmptyGridSpace />
         <Datepicker
           label='Delivery Date'
-          icon='calendar_month'
+          Icon={CalendarMonthIcon}
           errorMsg={errors.deliveryDate?.message}
           inputProps={register('deliveryDate')}
           setValue={setValue}
@@ -130,7 +141,7 @@ export const OrderSection = ({ className }: Props) => {
         />
         <Input
           label='Number of Cookies'
-          icon='tag'
+          Icon={TagIcon}
           errorMsg={errors.cookieCount?.message}
           inputProps={{ ...register('cookieCount'), type: 'number' }}
           required
@@ -138,7 +149,7 @@ export const OrderSection = ({ className }: Props) => {
         <div className='lg:col-span-2'>
           <Input
             label='Message'
-            icon='chat'
+            Icon={ChatIcon}
             errorMsg={errors.message?.message}
             textAreaProps={register('message')}
             required
@@ -160,9 +171,9 @@ type OrderButtonProps = {
 }
 
 const OrderButton = ({
-  isSubmitting,
-  isSubmitSuccessful,
-  isSubmitted
+ isSubmitting,
+ isSubmitSuccessful,
+ isSubmitted
 }: OrderButtonProps) => {
   let btnContent = ButtonContentMap['default']
 
@@ -176,14 +187,14 @@ const OrderButton = ({
     }
   }
 
-  const { icon, text } = btnContent
+  const { Icon, text } = btnContent
   return (
     <button
       className='flex items-center justify-center w-full gap-2 py-3 mt-2 transition duration-150 rounded-md bg-primary disabled:cursor-not-allowed disabled:hover:bg-lightprimary disabled:bg-lightprimary lg:hover:bg-darkprimary lg:hover:text-white lg:w-1/2'
       disabled={isSubmitting || (isSubmitted && isSubmitSuccessful)}
       type='submit'
     >
-      <span className='material-symbols-outlined'>{icon}</span>
+      <Icon />
       {text}
     </button>
   )
@@ -192,10 +203,10 @@ const OrderButton = ({
 type ButtonContentOptions = 'default' | 'loading' | 'error' | 'success'
 const ButtonContentMap: Record<
   ButtonContentOptions,
-  { icon: string; text: string }
+  { Icon: Icon; text: string }
 > = {
-  default: { icon: 'send', text: 'Send Order' },
-  loading: { icon: 'sync', text: 'Sending Order...' },
-  error: { icon: 'warning', text: 'Please Try Again.' },
-  success: { icon: 'check', text: 'Order Received!' }
+  default: { Icon: SendIcon, text: 'Send Order' },
+  loading: { Icon: SyncIcon, text: 'Sending Order...' },
+  error: { Icon: WarningIcon, text: 'Please Try Again.' },
+  success: { Icon: CheckIcon, text: 'Order Received!' }
 }

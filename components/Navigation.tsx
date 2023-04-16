@@ -1,16 +1,23 @@
 import { useState, useEffect, useRef, forwardRef } from 'react'
+import HomeIcon from '@mui/icons-material/HomeOutlined'
+import PersonIcon from '@mui/icons-material/PersonOutlined'
+import PhotoLibraryIcon from '@mui/icons-material/PhotoLibraryOutlined'
+import EmailIcon from '@mui/icons-material/EmailOutlined'
+import MenuIcon from '@mui/icons-material/MenuOutlined'
+import CloseIcon from '@mui/icons-material/CloseOutlined'
 import classNames from 'classnames'
 import { Transition } from '@headlessui/react'
 import { useOnClickOutside } from '../hooks'
+import type { Icon } from '../types'
 
 type LinkName = 'Home' | 'About' | 'Gallery' | 'Order'
-type Link = { name: LinkName; icon: string; id?: string }
+type Link = { name: LinkName; icon: Icon; id?: string }
 
 const links: Link[] = [
-  { name: 'Home', icon: 'home' },
-  { name: 'About', icon: 'person', id: 'about' },
-  { name: 'Gallery', icon: 'photo_library', id: 'gallery' },
-  { name: 'Order', icon: 'mail', id: 'order' }
+  { name: 'Home', icon: HomeIcon },
+  { name: 'About', icon: PersonIcon, id: 'about' },
+  { name: 'Gallery', icon: PhotoLibraryIcon, id: 'gallery' },
+  { name: 'Order', icon: EmailIcon, id: 'order' }
 ]
 
 function scrollToTop() {
@@ -75,14 +82,12 @@ export const Navigation = forwardRef<HTMLElement>((_props, ref) => {
           onClick={() => handleLinkClick(link.id)}
           key={index}
         >
-          <span className='material-symbols-outlined'>{link.icon}</span>
-          {link.name}
+            <link.icon />
+            {link.name}
         </a>
       ))}
       {/* Mobile Nav */}
-      <span className='material-symbols-outlined large' onClick={scrollToTop}>
-        home
-      </span>
+      <HomeIcon onClick={scrollToTop} className='text-4xl lg:hidden' />
       <MobileNavButton />
     </nav>
   )
@@ -103,11 +108,11 @@ const MobileNavButton = () => {
   return (
     <>
       <span
-        className='fixed right-2 top-2 material-symbols-outlined large lg:hidden'
+        className='fixed right-2 top-2 lg:hidden'
         onClick={toggleDrawer}
         ref={btnRef}
       >
-        {isDrawerOpen ? 'close' : 'menu'}
+        {isDrawerOpen ? <CloseIcon className='text-4xl' /> : <MenuIcon className='text-4xl' />}
       </span>
       <Transition
         show={isDrawerOpen}
@@ -131,9 +136,7 @@ const MobileNavButton = () => {
               }}
               className='flex items-center gap-2'
             >
-              <span className='material-symbols-outlined large'>
-                {link.icon}
-              </span>
+              <link.icon className='text-4xl' />
               {link.name}
             </li>
           ))}

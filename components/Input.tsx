@@ -1,5 +1,6 @@
 import TextareaAutosize from 'react-textarea-autosize'
 import type { InputHTMLAttributes, TextareaHTMLAttributes } from 'react'
+import type { Icon } from '../types'
 
 type RequireOnlyOne<T, Keys extends keyof T = keyof T> = Pick<
   T,
@@ -12,7 +13,7 @@ type RequireOnlyOne<T, Keys extends keyof T = keyof T> = Pick<
 
 export type BaseInputProps = {
   label: string
-  icon: string
+  Icon: Icon
   errorMsg?: string
   required?: boolean // only used to show asterik, does nothing with validation
   inputProps?: Omit<
@@ -29,7 +30,7 @@ type Props = RequireOnlyOne<BaseInputProps, 'inputProps' | 'textAreaProps'>
 
 export const Input = ({
   label,
-  icon,
+  Icon,
   errorMsg,
   required,
   inputProps,
@@ -42,7 +43,7 @@ export const Input = ({
     </label>
     {textAreaProps ? (
       <div className='flex gap-2 px-2 py-1 bg-white rounded-md group-focus-within:ring ring-1 ring-darkprimary'>
-        {icon && <span className='pt-2 material-symbols-outlined'>{icon}</span>}
+        <Icon className='mt-2' />
         <TextareaAutosize
           className='w-full h-full py-2 outline-none resize-none'
           minRows={3}
@@ -51,7 +52,7 @@ export const Input = ({
       </div>
     ) : (
       <div className='flex items-center gap-2 px-2 py-1 bg-white rounded-md group-focus-within:ring ring-1 ring-darkprimary'>
-        {icon && <span className='material-symbols-outlined'>{icon}</span>}
+        <Icon />
         <input className='w-full h-full py-2 outline-none' {...inputProps} />
       </div>
     )}

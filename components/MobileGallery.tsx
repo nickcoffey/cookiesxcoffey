@@ -1,5 +1,7 @@
 import Image from 'next/image'
 import classNames from 'classnames'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeftOutlined'
+import ChevronRightIcon from '@mui/icons-material/ChevronRightOutlined'
 import { posts } from './GallerySection'
 import type { CommonGalleryProps, GalleryButtonProps } from './GallerySection'
 
@@ -39,7 +41,7 @@ const GalleryButton = ({ side, ...props }: GalleryButtonProps) => {
 
   return (
     <button type='button' className={classes} {...props}>
-      <span className='material-symbols-outlined large'>{`chevron_${side}`}</span>
+      {side === 'left' ? <ChevronLeftIcon className='text-4xl' /> : <ChevronRightIcon className='text-4xl' />}
     </button>
   )
 }
