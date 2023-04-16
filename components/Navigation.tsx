@@ -82,8 +82,8 @@ export const Navigation = forwardRef<HTMLElement>((_props, ref) => {
           onClick={() => handleLinkClick(link.id)}
           key={index}
         >
-            <link.icon />
-            {link.name}
+          <link.icon />
+          {link.name}
         </a>
       ))}
       {/* Mobile Nav */}
@@ -98,7 +98,7 @@ Navigation.displayName = 'Navigation'
 const MobileNavButton = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const drawerRef = useRef<HTMLUListElement>(null)
-  const btnRef = useRef<HTMLSpanElement>(null)
+  const btnRef = useRef<SVGSVGElement>(null)
 
   useOnClickOutside(drawerRef, () => setIsDrawerOpen(false), [btnRef])
 
@@ -107,12 +107,9 @@ const MobileNavButton = () => {
 
   return (
     <>
-      <span
-        className='fixed right-2 top-2 lg:hidden'
-        onClick={toggleDrawer}
-        ref={btnRef}
-      >
-        {isDrawerOpen ? <CloseIcon className='text-4xl-important' /> : <MenuIcon className='text-4xl-important' />}
+      <span className='fixed right-2 top-2 lg:hidden'>
+        {isDrawerOpen ? <CloseIcon className='text-4xl-important' ref={btnRef} onClick={toggleDrawer} /> :
+          <MenuIcon className='text-4xl-important' ref={btnRef}  onClick={toggleDrawer} />}
       </span>
       <Transition
         show={isDrawerOpen}
