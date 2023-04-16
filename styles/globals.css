@@ -12,6 +12,27 @@
   src: url('../public/fonts/bdscript-reg.otf');
 }
 
+/* important styles are added here to override mui styles on icons */
+.text-3xl-important {
+  @apply text-3xl !important;
+}
+
+.text-4xl-important {
+  @apply text-4xl !important;
+}
+
+.text-5xl-important {
+  @apply text-5xl !important;
+}
+
+.lg-hidden-important {
+  @apply lg:hidden !important;
+}
+
+.mt-2-important {
+  @apply mt-2 !important;
+}
+
 /* removes yellow from inputs */
 input:-webkit-autofill {
   box-shadow: inset 0 0 0 9999px white;

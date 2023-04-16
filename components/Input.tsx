@@ -43,7 +43,7 @@ export const Input = ({
     </label>
     {textAreaProps ? (
       <div className='flex gap-2 px-2 py-1 bg-white rounded-md group-focus-within:ring ring-1 ring-darkprimary'>
-        <Icon className='mt-2' />
+        <Icon className='mt-2-important' />
         <TextareaAutosize
           className='w-full h-full py-2 outline-none resize-none'
           minRows={3}

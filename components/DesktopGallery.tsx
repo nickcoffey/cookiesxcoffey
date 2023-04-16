@@ -81,9 +81,9 @@ const FullscreenCarousel = ({
       <button
         type='button'
         onClick={() => setShowFullscreenPost(false)}
-        className='fixed flex items-center px-2 py-1 text-white transition duration-150 bg-black bg-opacity-50 rounded-md cursor-pointer top-4 right-4 hover:bg-opacity-100'
+        className='fixed flex items-center p-2 text-white transition duration-150 bg-black bg-opacity-50 rounded-md cursor-pointer top-4 right-4 hover:bg-opacity-100'
       >
-        <CloseIcon className='text-3xl' />
+        <CloseIcon className='text-3xl-important' />
       </button>
       <GalleryButton
         side='left'
@@ -118,7 +118,8 @@ const GalleryButton = forwardRef<SVGSVGElement, GalleryButtonProps>(
 
     return (
       <button type='button' className={classes} {...props}>
-        {side === 'left' ? <ChevronLeftIcon className='text-5xl' ref={ref} /> : <ChevronRightIcon className='text-5xl' ref={ref} />}
+        {side === 'left' ? <ChevronLeftIcon className='text-5xl-important' ref={ref} /> :
+          <ChevronRightIcon className='text-5xl-important' ref={ref} />}
       </button>
     )
   }

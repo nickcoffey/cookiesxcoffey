@@ -41,7 +41,7 @@ const GalleryButton = ({ side, ...props }: GalleryButtonProps) => {
 
   return (
     <button type='button' className={classes} {...props}>
-      {side === 'left' ? <ChevronLeftIcon className='text-4xl' /> : <ChevronRightIcon className='text-4xl' />}
+      {side === 'left' ? <ChevronLeftIcon className='text-4xl-important' /> : <ChevronRightIcon className='text-4xl-important' />}
     </button>
   )
 }

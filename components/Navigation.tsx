@@ -87,7 +87,7 @@ export const Navigation = forwardRef<HTMLElement>((_props, ref) => {
         </a>
       ))}
       {/* Mobile Nav */}
-      <HomeIcon onClick={scrollToTop} className='text-4xl lg:hidden' />
+      <HomeIcon onClick={scrollToTop} className='text-4xl-important lg-hidden-important' />
       <MobileNavButton />
     </nav>
   )
@@ -112,7 +112,7 @@ const MobileNavButton = () => {
         onClick={toggleDrawer}
         ref={btnRef}
       >
-        {isDrawerOpen ? <CloseIcon className='text-4xl' /> : <MenuIcon className='text-4xl' />}
+        {isDrawerOpen ? <CloseIcon className='text-4xl-important' /> : <MenuIcon className='text-4xl-important' />}
       </span>
       <Transition
         show={isDrawerOpen}
@@ -136,7 +136,7 @@ const MobileNavButton = () => {
               }}
               className='flex items-center gap-2'
             >
-              <link.icon className='text-4xl' />
+              <link.icon className='text-4xl-important' />
               {link.name}
             </li>
           ))}
