@@ -101,27 +101,29 @@ const DateDialog = (props: DateDialogProps) => {
           ))}
           {/* DATES */}
           {calendar.weeks.map(week =>
-            week.map((dateObj, weekIndex) => {
-              if (dateObj) {
-                const { date, selected, today } = dateObj
-                const dateClasses = classNames(
-                  'rounded-md p-1 transition duration-150 lg:hover:bg-darkprimary lg:hover:text-white',
-                  {
-                    ['bg-lightprimary']: today,
-                    ['bg-primary']: selected
-                  }
-                )
-                return (
-                  <button
-                    type='button'
-                    className={dateClasses}
-                    key={weekIndex}
-                    {...getDateProps({ dateObj })}
-                  >
-                    {date.getDate()}
-                  </button>
-                )
+            week.map((dateObj, dayIndex) => {
+              if (!dateObj) {
+                return <div key={dayIndex}></div>
               }
+
+              const { date, selected, today } = dateObj
+              const dateClasses = classNames(
+                'rounded-md p-1 transition duration-150 lg:hover:bg-darkprimary lg:hover:text-white',
+                {
+                  ['bg-lightprimary']: today,
+                  ['bg-primary']: selected
+                }
+              )
+              return (
+                <button
+                  type='button'
+                  className={dateClasses}
+                  key={dayIndex}
+                  {...getDateProps({ dateObj })}
+                >
+                  {date.getDate()}
+                </button>
+              )
             })
           )}
         </div>
