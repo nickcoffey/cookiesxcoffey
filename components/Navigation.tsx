@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, forwardRef } from 'react'
+import Link from 'next/link'
 import HomeIcon from '@mui/icons-material/HomeOutlined'
 import PersonIcon from '@mui/icons-material/PersonOutlined'
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibraryOutlined'
@@ -11,13 +12,13 @@ import { useOnClickOutside } from '../hooks'
 import type { Icon } from '../types'
 
 type LinkName = 'Home' | 'About' | 'Gallery' | 'Order'
-type Link = { name: LinkName; icon: Icon; id?: string }
+type Link = { name: LinkName; icon: Icon; id: string }
 
 const links: Link[] = [
-  { name: 'Home', icon: HomeIcon },
-  { name: 'About', icon: PersonIcon, id: 'about' },
-  { name: 'Gallery', icon: PhotoLibraryIcon, id: 'gallery' },
-  { name: 'Order', icon: EmailIcon, id: 'order' }
+  { name: 'Home', icon: HomeIcon, id: '/' },
+  { name: 'About', icon: PersonIcon, id: '/about' },
+  { name: 'Gallery', icon: PhotoLibraryIcon, id: '/gallery' },
+  { name: 'Order', icon: EmailIcon, id: '/order' }
 ]
 
 function scrollToTop() {
@@ -38,14 +39,6 @@ function scrollToSection(id: string) {
       top: offsetTop,
       behavior: 'smooth'
     })
-  }
-}
-
-const handleLinkClick = (linkId?: string) => {
-  if (!linkId) {
-    scrollToTop()
-  } else {
-    scrollToSection(linkId)
   }
 }
 
@@ -77,14 +70,16 @@ export const Navigation = forwardRef<HTMLElement>((_props, ref) => {
     <nav className={navClasses} id='navbar' ref={ref}>
       {/* Desktop Nav */}
       {links.map((link, index) => (
-        <a
-          className='items-start justify-center hidden gap-2 px-4 py-2 transition duration-150 rounded-md cursor-pointer select-none lg:flex hover:text-black hover:bg-primary'
-          onClick={() => handleLinkClick(link.id)}
+        <Link
+          href={link.id}
           key={index}
         >
-          <link.icon />
-          {link.name}
-        </a>
+          <span
+            className='items-start justify-center hidden gap-2 px-4 py-2 transition duration-150 rounded-md cursor-pointer select-none lg:flex hover:text-black hover:bg-primary'>
+            <link.icon />
+            {link.name}
+          </span>
+        </Link>
       ))}
       {/* Mobile Nav */}
       <HomeIcon onClick={scrollToTop} className='text-4xl-important lg-hidden-important' />
@@ -109,7 +104,7 @@ const MobileNavButton = () => {
     <>
       <span className='fixed right-2 top-2 lg:hidden'>
         {isDrawerOpen ? <CloseIcon className='text-4xl-important' ref={btnRef} onClick={toggleDrawer} /> :
-          <MenuIcon className='text-4xl-important' ref={btnRef}  onClick={toggleDrawer} />}
+          <MenuIcon className='text-4xl-important' ref={btnRef} onClick={toggleDrawer} />}
       </span>
       <Transition
         show={isDrawerOpen}
@@ -125,16 +120,13 @@ const MobileNavButton = () => {
           ref={drawerRef}
         >
           {links.map((link, index) => (
-            <li
-              key={index}
-              onClick={() => {
-                setIsDrawerOpen(false)
-                handleLinkClick(link.id)
-              }}
-              className='flex items-center gap-2'
-            >
-              <link.icon className='text-4xl-important' />
-              {link.name}
+            <li key={index}>
+              <Link href={link.id}>
+                <span className='flex items-center gap-2'>
+                  <link.icon className='text-4xl-important' />
+                  {link.name}
+                </span>
+              </Link>
             </li>
           ))}
         </ul>
