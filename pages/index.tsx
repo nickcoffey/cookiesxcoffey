@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
 import Image from 'next/image'
-import { Layout } from '../components'
+import { Layout, Main } from '../components'
 import logoPic from '../public/logo.svg'
 import type { NextPage } from 'next'
 import type { RefObject } from 'react'
@@ -49,7 +49,7 @@ const Home: NextPage = () => {
       >
         <Image src={logoPic} alt='Logo' height={iconHeight} />
       </header>
-      <main className='p-4 lg:py-8 lg:px-24 xl:px-48'>
+      <Main>
         <p className='pb-8'>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis
@@ -81,7 +81,7 @@ const Home: NextPage = () => {
           In mollis nunc sed id. Massa placerat duis ultricies lacus sed. Aenean
           sed adipiscing diam donec adipiscing tristique risus nec.
         </p>
-      </main>
+      </Main>
     </Layout>
   )
 }
