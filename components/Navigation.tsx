@@ -21,27 +21,6 @@ const links: Link[] = [
   { name: 'Order', icon: EmailIcon, id: '/order' }
 ]
 
-function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' })
-}
-
-function scrollToSection(id: string) {
-  const element = document.querySelector(`#${id}`)
-  const navbar = document.querySelector('#navbar')
-
-  if (element && navbar) {
-    // @ts-ignore
-    const navbarOffset = navbar.offsetHeight + 8
-    const elementPosition = element.getBoundingClientRect().top
-    const offsetTop = elementPosition + window.pageYOffset - navbarOffset
-
-    window.scrollTo({
-      top: offsetTop,
-      behavior: 'smooth'
-    })
-  }
-}
-
 export const Navigation = forwardRef<HTMLElement>((_props, ref) => {
   const [navVisEnabled, setNavVisEnabled] = useState(false)
 
@@ -70,19 +49,17 @@ export const Navigation = forwardRef<HTMLElement>((_props, ref) => {
     <nav className={navClasses} id='navbar' ref={ref}>
       {/* Desktop Nav */}
       {links.map((link, index) => (
-        <Link
-          href={link.id}
-          key={index}
-        >
-          <span
-            className='items-start justify-center hidden gap-2 px-4 py-2 transition duration-150 rounded-md cursor-pointer select-none lg:flex hover:text-black hover:bg-primary'>
+        <Link href={link.id} key={index}>
+          <span className='items-start justify-center hidden gap-2 px-4 py-2 transition duration-150 rounded-md cursor-pointer select-none lg:flex hover:text-black hover:bg-primary'>
             <link.icon />
             {link.name}
           </span>
         </Link>
       ))}
       {/* Mobile Nav */}
-      <HomeIcon onClick={scrollToTop} className='text-4xl-important lg-hidden-important' />
+      <Link href='/'>
+        <HomeIcon className='text-4xl-important lg-hidden-important' />
+      </Link>
       <MobileNavButton />
     </nav>
   )
@@ -102,10 +79,15 @@ const MobileNavButton = () => {
 
   return (
     <>
-      <span className='fixed right-2 top-2 lg:hidden'>
-        {isDrawerOpen ? <CloseIcon className='text-4xl-important' ref={btnRef} onClick={toggleDrawer} /> :
-          <MenuIcon className='text-4xl-important' ref={btnRef} onClick={toggleDrawer} />}
-      </span>
+      {!isDrawerOpen && (
+        <span className='fixed right-2 top-2 lg:hidden'>
+          <MenuIcon
+            className='text-4xl-important'
+            ref={btnRef}
+            onClick={toggleDrawer}
+          />
+        </span>
+      )}
       <Transition
         show={isDrawerOpen}
         enter='transition duration-150'
@@ -115,11 +97,20 @@ const MobileNavButton = () => {
         leaveFrom='opacity-100'
         leaveTo='opacity-0'
       >
+        {isDrawerOpen && (
+          <span className='fixed right-2 top-2 text-white z-50 lg:hidden'>
+            <CloseIcon
+              className='text-4xl-important'
+              ref={btnRef}
+              onClick={toggleDrawer}
+            />
+          </span>
+        )}
         <ul
-          className='h-full fixed z-20 top-0 left-0 bg-[rgba(0,0,0,0.9)] pt-12 pl-6 pr-20 text-white text-xl flex flex-col gap-4'
+          className='h-full fixed z-20 top-0 right-0 bg-[rgba(0,0,0,0.9)] pt-16 pl-6 pr-20 text-white text-xl flex flex-col gap-4'
           ref={drawerRef}
         >
-          {links.map((link, index) => (
+          {links.slice(1).map((link, index) => (
             <li key={index}>
               <Link href={link.id}>
                 <span className='flex items-center gap-2'>
