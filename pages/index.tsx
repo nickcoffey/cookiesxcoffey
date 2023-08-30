@@ -1,10 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
 import Image from 'next/image'
-import {
-  AboutSection,
-  GallerySection,
-  OrderSection, Layout
-} from '../components'
+import { Layout } from '../components'
 import logoPic from '../public/logo.svg'
 import type { NextPage } from 'next'
 import type { RefObject } from 'react'
@@ -54,8 +50,37 @@ const Home: NextPage = () => {
         <Image src={logoPic} alt='Logo' height={iconHeight} />
       </header>
       <main className='p-4 lg:py-8 lg:px-24 xl:px-48'>
-        <p className='pb-8'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis tristique sollicitudin nibh sit amet commodo nulla. Lacinia at quis risus sed vulputate. Enim nulla aliquet porttitor lacus luctus accumsan tortor posuere ac. Sit amet justo donec enim diam vulputate ut pharetra. Aliquet sagittis id consectetur purus ut faucibus pulvinar. Fermentum odio eu feugiat pretium. Molestie nunc non blandit massa enim. Enim blandit volutpat maecenas volutpat blandit aliquam. In pellentesque massa placerat duis. Arcu dui vivamus arcu felis. Adipiscing elit pellentesque habitant morbi tristique senectus. Vitae suscipit tellus mauris a diam maecenas sed enim. Vivamus arcu felis bibendum ut tristique. Nec tincidunt praesent semper feugiat nibh sed pulvinar. Tristique sollicitudin nibh sit amet commodo. A pellentesque sit amet porttitor eget dolor morbi non arcu.</p>
-        <p>Eu lobortis elementum nibh tellus molestie. Auctor augue mauris augue neque gravida in fermentum. Eu facilisis sed odio morbi quis commodo. Donec enim diam vulputate ut. Dui faucibus in ornare quam. Tristique nulla aliquet enim tortor at auctor urna nunc id. Libero justo laoreet sit amet cursus sit amet. Ac tortor dignissim convallis aenean et tortor at risus. Cras ornare arcu dui vivamus arcu. Ornare aenean euismod elementum nisi quis eleifend. Egestas congue quisque egestas diam. Elementum eu facilisis sed odio. Felis eget velit aliquet sagittis id consectetur purus ut. Dictum varius duis at consectetur. Sagittis purus sit amet volutpat consequat. Proin fermentum leo vel orci porta. Posuere lorem ipsum dolor sit amet consectetur adipiscing. In mollis nunc sed id. Massa placerat duis ultricies lacus sed. Aenean sed adipiscing diam donec adipiscing tristique risus nec.</p>
+        <p className='pb-8'>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis
+          tristique sollicitudin nibh sit amet commodo nulla. Lacinia at quis
+          risus sed vulputate. Enim nulla aliquet porttitor lacus luctus
+          accumsan tortor posuere ac. Sit amet justo donec enim diam vulputate
+          ut pharetra. Aliquet sagittis id consectetur purus ut faucibus
+          pulvinar. Fermentum odio eu feugiat pretium. Molestie nunc non blandit
+          massa enim. Enim blandit volutpat maecenas volutpat blandit aliquam.
+          In pellentesque massa placerat duis. Arcu dui vivamus arcu felis.
+          Adipiscing elit pellentesque habitant morbi tristique senectus. Vitae
+          suscipit tellus mauris a diam maecenas sed enim. Vivamus arcu felis
+          bibendum ut tristique. Nec tincidunt praesent semper feugiat nibh sed
+          pulvinar. Tristique sollicitudin nibh sit amet commodo. A pellentesque
+          sit amet porttitor eget dolor morbi non arcu.
+        </p>
+        <p>
+          Eu lobortis elementum nibh tellus molestie. Auctor augue mauris augue
+          neque gravida in fermentum. Eu facilisis sed odio morbi quis commodo.
+          Donec enim diam vulputate ut. Dui faucibus in ornare quam. Tristique
+          nulla aliquet enim tortor at auctor urna nunc id. Libero justo laoreet
+          sit amet cursus sit amet. Ac tortor dignissim convallis aenean et
+          tortor at risus. Cras ornare arcu dui vivamus arcu. Ornare aenean
+          euismod elementum nisi quis eleifend. Egestas congue quisque egestas
+          diam. Elementum eu facilisis sed odio. Felis eget velit aliquet
+          sagittis id consectetur purus ut. Dictum varius duis at consectetur.
+          Sagittis purus sit amet volutpat consequat. Proin fermentum leo vel
+          orci porta. Posuere lorem ipsum dolor sit amet consectetur adipiscing.
+          In mollis nunc sed id. Massa placerat duis ultricies lacus sed. Aenean
+          sed adipiscing diam donec adipiscing tristique risus nec.
+        </p>
       </main>
     </Layout>
   )

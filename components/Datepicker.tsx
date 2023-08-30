@@ -4,10 +4,10 @@ import { Popover, Transition } from '@headlessui/react'
 import { usePopper } from 'react-popper'
 import classNames from 'classnames'
 import { Input } from './Input'
-import { OrderInputs } from './OrderSection'
 import { getTruncatedDateStr } from '../utils'
 import type { Props as DayzedProps } from 'dayzed'
 import type { UseFormSetValue } from 'react-hook-form'
+import type { OrderInputs } from '../pages/order'
 import type { BaseInputProps } from './Input'
 
 type RequiredInputProps = Required<Pick<BaseInputProps, 'inputProps'>>

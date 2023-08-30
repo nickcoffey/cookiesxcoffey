@@ -1,52 +1,65 @@
-import { useRef, useState, useEffect } from 'react'
-import {
-  AboutSection, GallerySection,
-  Layout
-} from '../components'
+import { useState } from 'react'
+import { Page, MobileGallery, DesktopGallery } from '../components'
 import type { NextPage } from 'next'
-import type { RefObject } from 'react'
 
-const getElementHeight = <T extends HTMLElement>(ref: RefObject<T>) =>
-  ref.current?.offsetHeight
+import babyPic from '../public/posts/baby.jpg'
+import baby2Pic from '../public/posts/baby2.jpg'
+import birthdayPic from '../public/posts/birthday.jpg'
+import carsPic from '../public/posts/cars.jpg'
+import cars2Pic from '../public/posts/cars2.jpg'
+import marvelPic from '../public/posts/marvel.jpg'
+import potterPic from '../public/posts/potter.jpg'
+import potter2Pic from '../public/posts/potter2.jpg'
+import potter3Pic from '../public/posts/potter3.jpg'
 
-let navHeight = 0
-let headerHeight = 0
+export const posts = [
+  babyPic,
+  baby2Pic,
+  birthdayPic,
+  carsPic,
+  cars2Pic,
+  marvelPic,
+  potterPic,
+  potter2Pic,
+  potter3Pic
+]
 
-const About: NextPage = () => {
-  const navRef = useRef<HTMLElement>(null)
-  const headerRef = useRef<HTMLElement>(null)
-  const [iconHeight, setIconHeight] = useState(0)
+export type CommonGalleryProps = {
+  postIndex: number
+  goToNextPost: () => void
+  goToPrevPost: () => void
+  atFirstPost: boolean
+  atLastPost: boolean
+}
 
-  const handleResize = () => {
-    const refNavHeight = getElementHeight(navRef)
-    const refHeaderHeight = getElementHeight(headerRef)
+export type GalleryButtonProps = {
+  side: 'left' | 'right'
+  onClick: () => void
+  disabled: boolean
+}
 
-    if (refNavHeight && refHeaderHeight) {
-      // only set height state when it's different to avoid unnecessary rerenders
-      if (refNavHeight !== navHeight || refHeaderHeight !== headerHeight) {
-        navHeight = refNavHeight
-        headerHeight = refHeaderHeight
-        setIconHeight(refHeaderHeight - refNavHeight)
-      }
-    }
+const Gallery: NextPage = () => {
+  const [postIndex, setPostIndex] = useState(0)
+
+  const atFirstPost = postIndex === 0
+  const atLastPost = postIndex === posts.length - 1
+
+  const goToNextPost = () => setPostIndex(postIndex + 1)
+  const goToPrevPost = () => setPostIndex(postIndex - 1)
+
+  const commonGalleryProps = {
+    postIndex,
+    goToNextPost,
+    goToPrevPost,
+    atFirstPost,
+    atLastPost
   }
-
-  useEffect(() => {
-    const refNavHeight = getElementHeight(navRef)
-    const refHeaderHeight = getElementHeight(headerRef)
-    if (refNavHeight && refHeaderHeight) {
-      setIconHeight(refHeaderHeight - refNavHeight)
-    }
-
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
-
   return (
-    <Layout navRef={navRef}>
-      <GallerySection />
-    </Layout>
+    <Page header='Gallery'>
+      <MobileGallery {...commonGalleryProps} />
+      <DesktopGallery setPostIndex={setPostIndex} {...commonGalleryProps} />
+    </Page>
   )
 }
 
-export default About
+export default Gallery
