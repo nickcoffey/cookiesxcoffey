@@ -6,8 +6,8 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeftOutlined'
 import ChevronRightIcon from '@mui/icons-material/ChevronRightOutlined'
 import CloseIcon from '@mui/icons-material/CloseOutlined'
 import { useOnClickOutside } from '../hooks'
-import { posts } from '.'
-import type { CommonGalleryProps, GalleryButtonProps } from './GallerySection'
+import { posts } from '../pages/gallery'
+import type { CommonGalleryProps, GalleryButtonProps } from '../pages/gallery'
 
 type DesktopGalleryProps = CommonGalleryProps & {
   setPostIndex: (postIndex: number) => void

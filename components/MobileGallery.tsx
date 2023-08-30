@@ -2,8 +2,8 @@ import Image from 'next/image'
 import classNames from 'classnames'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeftOutlined'
 import ChevronRightIcon from '@mui/icons-material/ChevronRightOutlined'
-import { posts } from './GallerySection'
-import type { CommonGalleryProps, GalleryButtonProps } from './GallerySection'
+import { posts } from '../pages/gallery'
+import type { CommonGalleryProps, GalleryButtonProps } from '../pages/gallery'
 
 export const MobileGallery = ({
   postIndex,
