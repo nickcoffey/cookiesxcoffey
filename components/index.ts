@@ -1,5 +1,3 @@
-export * from './DesktopGallery'
-export * from './MobileGallery'
 export * from './Input'
 export * from './Layout'
 export * from './Main'
