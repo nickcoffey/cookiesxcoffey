@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef, useState } from 'react'
+import { ChangeEvent, useRef } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -8,6 +8,7 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhoneOutlined'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonthOutlined'
 import TagIcon from '@mui/icons-material/TagOutlined'
 import CookieIcon from '@mui/icons-material/CookieOutlined'
+import CloseIcon from '@mui/icons-material/CloseOutlined'
 import ChatIcon from '@mui/icons-material/ChatOutlined'
 import SendIcon from '@mui/icons-material/SendOutlined'
 import SyncIcon from '@mui/icons-material/SyncOutlined'
@@ -22,10 +23,6 @@ import type {
 } from './api/sendEmail'
 import type { NextPage } from 'next'
 import type { Icon } from '../types'
-
-type FormCookieItem = CookieItem & {
-  id: number
-}
 
 export type OrderInputs = {
   name: string
@@ -82,19 +79,8 @@ const schema = yup.object({
 
 const EmptyGridSpace = () => <div className='hidden lg:block lg:col-span-1' />
 
-let CookieListIDCache = 1
-
 const Order: NextPage = () => {
   const formRef = useRef<HTMLFormElement>(null)
-  const [cookieItems, setCookieItems] = useState<FormCookieItem[]>([])
-
-  const handleAddFlavorClick = () => {
-    CookieListIDCache++
-    setCookieItems([
-      ...cookieItems,
-      { id: CookieListIDCache, count: 0, flavor: '' }
-    ])
-  }
 
   const {
     register,
@@ -105,15 +91,29 @@ const Order: NextPage = () => {
     reset
   } = useForm<OrderInputs>({ mode: 'onSubmit', resolver: yupResolver(schema) })
 
+  const cookieListWatch = watch('cookieList')
+
+  const addFlavor = () => {
+    const newFlavor = { count: 0, flavor: '' }
+    setValue(
+      'cookieList',
+      cookieListWatch ? [...cookieListWatch, newFlavor] : [newFlavor]
+    )
+  }
+
+  const removeFlavor = (index: number) => {
+    setValue(
+      'cookieList',
+      cookieListWatch.filter((_, i) => index !== i)
+    )
+  }
+
   const onSubmit: SubmitHandler<OrderInputs> = async data => {
     await httpPost<EmailRequestBody, EmailResponseBody>('api/sendEmail', data)
   }
 
   if (isSubmitSuccessful) {
-    setTimeout(() => {
-      reset()
-      setCookieItems([])
-    }, 3000)
+    setTimeout(reset, 3000)
   }
 
   const phoneWatch = watch('phone')
@@ -164,12 +164,9 @@ const Order: NextPage = () => {
           required
         />
         <div className='grid gap-4'>
-          <h4>Order Details</h4>
-          {cookieItems.map((_cookieItem, index) => (
-            <div
-              key={index}
-              className='grid gap-4 pb-4 border-b border-b-black last-of-type:border-b-0 last-of-type:pb-0'
-            >
+          <h4 className='text-sm'>Order Details</h4>
+          {cookieListWatch?.map((_, index) => (
+            <div key={index} className='flex gap-4 items-end'>
               <Input
                 label='Flavor'
                 Icon={CookieIcon}
@@ -179,24 +176,34 @@ const Order: NextPage = () => {
                 inputProps={{ ...register(`cookieList.${index}.flavor`) }}
                 required
               />
-              <Input
-                label='Number of Cookies'
-                Icon={TagIcon}
-                errorMsg={
-                  errors.cookieList && errors.cookieList[index]?.count?.message
-                }
-                inputProps={{
-                  ...register(`cookieList.${index}.count`),
-                  type: 'number'
-                }}
-                required
-              />
+              <span className='w-1/4'>
+                <Input
+                  label='Amount'
+                  Icon={TagIcon}
+                  errorMsg={
+                    errors.cookieList &&
+                    errors.cookieList[index]?.count?.message
+                  }
+                  inputProps={{
+                    ...register(`cookieList.${index}.count`),
+                    type: 'number'
+                  }}
+                  required
+                />
+              </span>
+              <button
+                type='button'
+                onClick={() => removeFlavor(index)}
+                className={`flex items-center justify-center h-[45px] w-[45px] transition duration-150 rounded-md bg-primary lg:hover:bg-darkprimary lg:hover:text-white lg:w-1/2`}
+              >
+                <CloseIcon />
+              </button>
             </div>
           ))}
           <button
             type='button'
-            onClick={handleAddFlavorClick}
-            className='flex items-center justify-center w-full gap-2 py-3 mt-2 transition duration-150 rounded-md bg-primary lg:hover:bg-darkprimary lg:hover:text-white lg:w-1/2'
+            onClick={addFlavor}
+            className='flex items-center justify-center w-full py-3 mt-2 transition duration-150 rounded-md bg-primary lg:hover:bg-darkprimary lg:hover:text-white lg:w-1/2'
           >
             Add Flavor
           </button>
