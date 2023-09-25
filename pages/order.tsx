@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef } from 'react'
+import { ChangeEvent, useRef, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -7,6 +7,7 @@ import EmailIcon from '@mui/icons-material/EmailOutlined'
 import LocalPhoneIcon from '@mui/icons-material/LocalPhoneOutlined'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonthOutlined'
 import TagIcon from '@mui/icons-material/TagOutlined'
+import CookieIcon from '@mui/icons-material/CookieOutlined'
 import ChatIcon from '@mui/icons-material/ChatOutlined'
 import SendIcon from '@mui/icons-material/SendOutlined'
 import SyncIcon from '@mui/icons-material/SyncOutlined'
@@ -14,16 +15,24 @@ import WarningIcon from '@mui/icons-material/WarningOutlined'
 import CheckIcon from '@mui/icons-material/CheckOutlined'
 import { Page, Input, Datepicker } from '../components'
 import { httpPost, maskPhone, removePhoneMask } from '../utils'
-import { EmailRequestBody, EmailResponseBody } from './api/sendEmail'
+import type {
+  CookieItem,
+  EmailRequestBody,
+  EmailResponseBody
+} from './api/sendEmail'
 import type { NextPage } from 'next'
 import type { Icon } from '../types'
+
+type FormCookieItem = CookieItem & {
+  id: number
+}
 
 export type OrderInputs = {
   name: string
   email: string
   phone: string
   deliveryDate: string
-  cookieCount: number
+  cookieList: CookieItem[]
   message: string
 }
 
@@ -51,12 +60,20 @@ const schema = yup.object({
     .typeError('Please enter a delivery date.')
     .min(new Date(), 'Delivery date must be in the future.')
     .required('Please enter a delivery date.'),
-  cookieCount: yup
-    .number()
-    .typeError('Please enter how many cookies you would like.')
-    .min(1, 'Please request at least one cookie.')
-    .max(500, 'The number of cookies entered is too high.')
-    .required('Please enter how many cookies you would like.'),
+  cookieList: yup.array().of(
+    yup.object({
+      flavor: yup
+        .string()
+        .max(75, 'The flavor entered is too long.')
+        .required('Please enter a flavor.'),
+      count: yup
+        .number()
+        .typeError('Please enter how many cookies you would like.')
+        .min(1, 'Please request at least one cookie.')
+        .max(500, 'The number of cookies entered is too high.')
+        .required('Please enter how many cookies you would like.')
+    })
+  ),
   message: yup
     .string()
     .max(1000, 'The message entered is too long.')
@@ -65,8 +82,19 @@ const schema = yup.object({
 
 const EmptyGridSpace = () => <div className='hidden lg:block lg:col-span-1' />
 
+let CookieListIDCache = 1
+
 const Order: NextPage = () => {
   const formRef = useRef<HTMLFormElement>(null)
+  const [cookieItems, setCookieItems] = useState<FormCookieItem[]>([])
+
+  const handleAddFlavorClick = () => {
+    CookieListIDCache++
+    setCookieItems([
+      ...cookieItems,
+      { id: CookieListIDCache, count: 0, flavor: '' }
+    ])
+  }
 
   const {
     register,
@@ -82,7 +110,10 @@ const Order: NextPage = () => {
   }
 
   if (isSubmitSuccessful) {
-    setTimeout(reset, 3000)
+    setTimeout(() => {
+      reset()
+      setCookieItems([])
+    }, 3000)
   }
 
   const phoneWatch = watch('phone')
@@ -132,13 +163,44 @@ const Order: NextPage = () => {
           setValue={setValue}
           required
         />
-        <Input
-          label='Number of Cookies'
-          Icon={TagIcon}
-          errorMsg={errors.cookieCount?.message}
-          inputProps={{ ...register('cookieCount'), type: 'number' }}
-          required
-        />
+        <div className='grid gap-4'>
+          <h4>Order Details</h4>
+          {cookieItems.map((_cookieItem, index) => (
+            <div
+              key={index}
+              className='grid gap-4 pb-4 border-b border-b-black last-of-type:border-b-0 last-of-type:pb-0'
+            >
+              <Input
+                label='Flavor'
+                Icon={CookieIcon}
+                errorMsg={
+                  errors.cookieList && errors.cookieList[index]?.flavor?.message
+                }
+                inputProps={{ ...register(`cookieList.${index}.flavor`) }}
+                required
+              />
+              <Input
+                label='Number of Cookies'
+                Icon={TagIcon}
+                errorMsg={
+                  errors.cookieList && errors.cookieList[index]?.count?.message
+                }
+                inputProps={{
+                  ...register(`cookieList.${index}.count`),
+                  type: 'number'
+                }}
+                required
+              />
+            </div>
+          ))}
+          <button
+            type='button'
+            onClick={handleAddFlavorClick}
+            className='flex items-center justify-center w-full gap-2 py-3 mt-2 transition duration-150 rounded-md bg-primary lg:hover:bg-darkprimary lg:hover:text-white lg:w-1/2'
+          >
+            Add Flavor
+          </button>
+        </div>
         <div className='lg:col-span-2'>
           <Input
             label='Message'

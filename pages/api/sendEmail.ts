@@ -15,12 +15,17 @@ oauth2Client.setCredentials({
   refresh_token: process.env.REFRESH_TOKEN
 })
 
+export type CookieItem = {
+  count: number
+  flavor: string
+}
+
 export type EmailRequestBody = {
   email: string
   name: string
   phone?: string
   deliveryDate: string
-  cookieCount: number
+  cookieList: CookieItem[]
   message: string
 }
 
@@ -33,7 +38,7 @@ const sendEmail = async (
   res: NextApiResponse<EmailResponseBody>
 ) => {
   if (req.method === 'POST') {
-    const { email, name, phone, deliveryDate, cookieCount, message } =
+    const { email, name, phone, deliveryDate, cookieList, message } =
       req.body as EmailRequestBody
 
     try {
@@ -62,7 +67,12 @@ const sendEmail = async (
         <p><strong>Date:</strong> ${getTruncatedDateStr(
           new Date(deliveryDate)
         )}</p>
-        <p><strong>Number of Cookies:</strong> ${cookieCount}</p>
+        <p><strong>Cookies:</strong></p>
+        ${cookieList.reduce(
+          (total, currentItem) =>
+            `${total}<p>${currentItem.count} ${currentItem.flavor}</p>`,
+          ''
+        )}
         <p><strong>Message:</strong> ${message}</p>
       `
       })
