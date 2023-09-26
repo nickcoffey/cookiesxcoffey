@@ -6,7 +6,7 @@ import PersonIcon from '@mui/icons-material/PersonOutlined'
 import EmailIcon from '@mui/icons-material/EmailOutlined'
 import LocalPhoneIcon from '@mui/icons-material/LocalPhoneOutlined'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonthOutlined'
-import TagIcon from '@mui/icons-material/TagOutlined'
+import NumbersIcon from '@mui/icons-material/NumbersOutlined'
 import CookieIcon from '@mui/icons-material/CookieOutlined'
 import DeleteIcon from '@mui/icons-material/DeleteOutlined'
 import AddIcon from '@mui/icons-material/AddOutlined'
@@ -15,15 +15,16 @@ import SendIcon from '@mui/icons-material/SendOutlined'
 import SyncIcon from '@mui/icons-material/SyncOutlined'
 import WarningIcon from '@mui/icons-material/WarningOutlined'
 import CheckIcon from '@mui/icons-material/CheckOutlined'
-import { Page, Input, Datepicker } from '../components'
+import { Page, Input, Datepicker, Select } from '../components'
 import { httpPost, maskPhone, removePhoneMask } from '../utils'
+import { FlavorOptions } from '../types'
 import type {
   CookieItem,
   EmailRequestBody,
   EmailResponseBody
 } from './api/sendEmail'
 import type { NextPage } from 'next'
-import type { Icon } from '../types'
+import type { Icon, FlavorOptionType } from '../types'
 
 export type OrderInputs = {
   name: string
@@ -83,7 +84,8 @@ const schema = yup.object({
 })
 
 const EmptyGridSpace = () => <div className='hidden lg:block lg:col-span-1' />
-const newFlavor = { count: 0, flavor: '' }
+// @ts-ignore
+const newFlavor: CookieItem = { count: null, flavor: '' }
 
 const Order: NextPage = () => {
   const formRef = useRef<HTMLFormElement>(null)
@@ -112,6 +114,13 @@ const Order: NextPage = () => {
       'cookieList',
       cookieListWatch.filter((_, i) => index !== i)
     )
+  }
+
+  const handleFlavorSelect = (
+    cookieItemIndex: number,
+    newValue: FlavorOptionType
+  ) => {
+    setValue(`cookieList.${cookieItemIndex}.flavor`, newValue)
   }
 
   const onSubmit: SubmitHandler<OrderInputs> = async data => {
@@ -180,39 +189,41 @@ const Order: NextPage = () => {
             required
           />
         </div>
-        <div className='flex flex-col gap-4 border-b border-darkprimary group lg:col-span-2'>
-          <h4 className='text-sm text-primary group-focus-within:text-darkprimary'>
-            Order Details*
-          </h4>
+        <div className='flex flex-col gap-4 border-b border-darkprimary lg:col-span-2'>
+          <h4 className='text-sm text-primary'>Order Details*</h4>
           {errors.cookieList?.message && cookieListWatch?.length < 1 && (
-            <span className='text-sm text-primary group-focus-within:text-darkprimary'>
+            <span className='text-sm text-primary'>
               {errors.cookieList.message}
             </span>
           )}
-          {cookieListWatch?.map((_, index) => (
-            <div key={index} className='flex gap-4 items-start'>
+          {cookieListWatch?.map((_, itemIndex) => (
+            <div key={itemIndex} className='flex gap-4 items-start'>
               <div className='w-full'>
-                <Input
+                <Select
+                  options={FlavorOptions}
+                  value={cookieListWatch[itemIndex].flavor}
+                  handleSelect={selectedOption => {
+                    handleFlavorSelect(itemIndex, selectedOption)
+                  }}
                   label='Flavor'
                   Icon={CookieIcon}
                   errorMsg={
                     errors.cookieList &&
-                    errors.cookieList[index]?.flavor?.message
+                    errors.cookieList[itemIndex]?.flavor?.message
                   }
-                  inputProps={register(`cookieList.${index}.flavor`)}
                   required
                 />
               </div>
               <div className='w-1/2 lg:w-full'>
                 <Input
                   label='Amount'
-                  Icon={TagIcon}
+                  Icon={NumbersIcon}
                   errorMsg={
                     errors.cookieList &&
-                    errors.cookieList[index]?.count?.message
+                    errors.cookieList[itemIndex]?.count?.message
                   }
                   inputProps={{
-                    ...register(`cookieList.${index}.count`),
+                    ...register(`cookieList.${itemIndex}.count`),
                     type: 'number'
                   }}
                   required
@@ -220,7 +231,7 @@ const Order: NextPage = () => {
               </div>
               <button
                 type='button'
-                onClick={() => removeFlavor(index)}
+                onClick={() => removeFlavor(itemIndex)}
                 className='flex items-end justify-center mt-8 text-black transition duration-150 lg:hover:text-darkprimary'
               >
                 <DeleteIcon />
