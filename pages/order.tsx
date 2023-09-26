@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef } from 'react'
+import { ChangeEvent, useRef, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -8,7 +8,8 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhoneOutlined'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonthOutlined'
 import TagIcon from '@mui/icons-material/TagOutlined'
 import CookieIcon from '@mui/icons-material/CookieOutlined'
-import CloseIcon from '@mui/icons-material/CloseOutlined'
+import DeleteIcon from '@mui/icons-material/DeleteOutlined'
+import AddIcon from '@mui/icons-material/AddOutlined'
 import ChatIcon from '@mui/icons-material/ChatOutlined'
 import SendIcon from '@mui/icons-material/SendOutlined'
 import SyncIcon from '@mui/icons-material/SyncOutlined'
@@ -57,20 +58,24 @@ const schema = yup.object({
     .typeError('Please enter a delivery date.')
     .min(new Date(), 'Delivery date must be in the future.')
     .required('Please enter a delivery date.'),
-  cookieList: yup.array().of(
-    yup.object({
-      flavor: yup
-        .string()
-        .max(75, 'The flavor entered is too long.')
-        .required('Please enter a flavor.'),
-      count: yup
-        .number()
-        .typeError('Please enter how many cookies you would like.')
-        .min(1, 'Please request at least one cookie.')
-        .max(500, 'The number of cookies entered is too high.')
-        .required('Please enter how many cookies you would like.')
-    })
-  ),
+  cookieList: yup
+    .array()
+    .ensure()
+    .min(1, 'Cookie details are required to submit an order')
+    .of(
+      yup.object({
+        flavor: yup
+          .string()
+          .max(75, 'The flavor entered is too long.')
+          .required('Please enter a flavor.'),
+        count: yup
+          .number()
+          .typeError('Please enter an amount.')
+          .min(1, 'Please enter an amount.')
+          .max(500, 'That amount is too high.')
+          .required('Please enter an amount.')
+      })
+    ),
   message: yup
     .string()
     .max(1000, 'The message entered is too long.')
@@ -78,6 +83,7 @@ const schema = yup.object({
 })
 
 const EmptyGridSpace = () => <div className='hidden lg:block lg:col-span-1' />
+const newFlavor = { count: 0, flavor: '' }
 
 const Order: NextPage = () => {
   const formRef = useRef<HTMLFormElement>(null)
@@ -92,9 +98,9 @@ const Order: NextPage = () => {
   } = useForm<OrderInputs>({ mode: 'onSubmit', resolver: yupResolver(schema) })
 
   const cookieListWatch = watch('cookieList')
+  const phoneWatch = watch('phone')
 
   const addFlavor = () => {
-    const newFlavor = { count: 0, flavor: '' }
     setValue(
       'cookieList',
       cookieListWatch ? [...cookieListWatch, newFlavor] : [newFlavor]
@@ -116,7 +122,10 @@ const Order: NextPage = () => {
     setTimeout(reset, 3000)
   }
 
-  const phoneWatch = watch('phone')
+  useEffect(() => {
+    setValue('cookieList', [newFlavor])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Page header='Order'>
@@ -163,10 +172,26 @@ const Order: NextPage = () => {
           setValue={setValue}
           required
         />
-        <div className='grid gap-4'>
-          <h4 className='text-sm'>Order Details</h4>
+        <div className='lg:col-span-2'>
+          <Input
+            label='Message'
+            Icon={ChatIcon}
+            errorMsg={errors.message?.message}
+            textAreaProps={register('message')}
+            required
+          />
+        </div>
+        <div className='grid gap-4 border-b border-darkprimary group'>
+          <h4 className='text-sm text-primary group-focus-within:text-darkprimary'>
+            Order Details*
+          </h4>
+          {errors.cookieList?.message && cookieListWatch?.length < 1 && (
+            <span className='text-sm text-primary group-focus-within:text-darkprimary'>
+              {errors.cookieList.message}
+            </span>
+          )}
           {cookieListWatch?.map((_, index) => (
-            <div key={index} className='flex gap-4 items-end'>
+            <div key={index} className='flex gap-4 items-start'>
               <Input
                 label='Flavor'
                 Icon={CookieIcon}
@@ -176,7 +201,7 @@ const Order: NextPage = () => {
                 inputProps={{ ...register(`cookieList.${index}.flavor`) }}
                 required
               />
-              <span className='w-1/4'>
+              <span className='w-1/3'>
                 <Input
                   label='Amount'
                   Icon={TagIcon}
@@ -194,28 +219,20 @@ const Order: NextPage = () => {
               <button
                 type='button'
                 onClick={() => removeFlavor(index)}
-                className={`flex items-center justify-center h-[45px] w-[45px] transition duration-150 rounded-md bg-primary lg:hover:bg-darkprimary lg:hover:text-white lg:w-1/2`}
+                className='flex items-end justify-center mt-8 text-black transition duration-150 lg:hover:text-darkprimary'
               >
-                <CloseIcon />
+                <DeleteIcon />
               </button>
             </div>
           ))}
           <button
             type='button'
             onClick={addFlavor}
-            className='flex items-center justify-center w-full py-3 mt-2 transition duration-150 rounded-md bg-primary lg:hover:bg-darkprimary lg:hover:text-white lg:w-1/2'
+            className='flex items-center justify-center gap-2 w-full py-3 text-black transition duration-150 lg:hover:text-darkprimary'
           >
+            <AddIcon />
             Add Flavor
           </button>
-        </div>
-        <div className='lg:col-span-2'>
-          <Input
-            label='Message'
-            Icon={ChatIcon}
-            errorMsg={errors.message?.message}
-            textAreaProps={register('message')}
-            required
-          />
         </div>
         <EmptyGridSpace />
         <div className='lg:col-span-1 lg:flex lg:justify-end'>
