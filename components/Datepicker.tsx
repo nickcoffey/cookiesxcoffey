@@ -17,6 +17,8 @@ type DatepickerProps = { setValue: UseFormSetValue<OrderInputs> } & Omit<
 > &
   RequiredInputProps
 
+// TODO: fix focus within state
+// TODO: fix popper offset
 export const Datepicker = ({ setValue, ...props }: DatepickerProps) => {
   const [date, setDate] = useState<Date>()
 
