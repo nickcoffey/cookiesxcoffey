@@ -11,6 +11,7 @@ type SelectProps<TOption extends string> = {
   handleSelect: (selectedOption: TOption) => void
 } & Omit<BaseInputProps, 'textAreaProps' | 'inputProps'>
 
+// TODO: fix popper offset
 export const Select = <TOption extends string>({
   label,
   required,
