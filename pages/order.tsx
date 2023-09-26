@@ -61,7 +61,7 @@ const schema = yup.object({
   cookieList: yup
     .array()
     .ensure()
-    .min(1, 'Cookie details are required to submit an order')
+    .min(1, 'Cookie details are required to submit an order.')
     .of(
       yup.object({
         flavor: yup
@@ -163,7 +163,6 @@ const Order: NextPage = () => {
             }
           }}
         />
-        <EmptyGridSpace />
         <Datepicker
           label='Delivery Date'
           Icon={CalendarMonthIcon}
@@ -181,7 +180,7 @@ const Order: NextPage = () => {
             required
           />
         </div>
-        <div className='grid gap-4 border-b border-darkprimary group'>
+        <div className='flex flex-col gap-4 border-b border-darkprimary group lg:col-span-2'>
           <h4 className='text-sm text-primary group-focus-within:text-darkprimary'>
             Order Details*
           </h4>
@@ -192,16 +191,19 @@ const Order: NextPage = () => {
           )}
           {cookieListWatch?.map((_, index) => (
             <div key={index} className='flex gap-4 items-start'>
-              <Input
-                label='Flavor'
-                Icon={CookieIcon}
-                errorMsg={
-                  errors.cookieList && errors.cookieList[index]?.flavor?.message
-                }
-                inputProps={{ ...register(`cookieList.${index}.flavor`) }}
-                required
-              />
-              <span className='w-1/3'>
+              <div className='w-full'>
+                <Input
+                  label='Flavor'
+                  Icon={CookieIcon}
+                  errorMsg={
+                    errors.cookieList &&
+                    errors.cookieList[index]?.flavor?.message
+                  }
+                  inputProps={register(`cookieList.${index}.flavor`)}
+                  required
+                />
+              </div>
+              <div className='w-1/2 lg:w-full'>
                 <Input
                   label='Amount'
                   Icon={TagIcon}
@@ -215,7 +217,7 @@ const Order: NextPage = () => {
                   }}
                   required
                 />
-              </span>
+              </div>
               <button
                 type='button'
                 onClick={() => removeFlavor(index)}
@@ -225,14 +227,16 @@ const Order: NextPage = () => {
               </button>
             </div>
           ))}
-          <button
-            type='button'
-            onClick={addFlavor}
-            className='flex items-center justify-center gap-2 w-full py-3 text-black transition duration-150 lg:hover:text-darkprimary'
-          >
-            <AddIcon />
-            Add Flavor
-          </button>
+          <div className='flex justify-center'>
+            <button
+              type='button'
+              onClick={addFlavor}
+              className='flex items-center justify-center gap-2 pb-4 text-black transition duration-150 lg:hover:text-darkprimary'
+            >
+              <AddIcon />
+              Add Flavor
+            </button>
+          </div>
         </div>
         <EmptyGridSpace />
         <div className='lg:col-span-1 lg:flex lg:justify-end'>
