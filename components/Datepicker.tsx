@@ -53,10 +53,15 @@ export const Datepicker = ({ setValue, ...props }: DatepickerProps) => {
           {...attributes.popper}
           className='bg-white'
         >
-          <DateDialog
-            selected={date}
-            onDateSelected={date => setDate(date.date)}
-          />
+          {({ close }) => (
+            <DateDialog
+              selected={date}
+              onDateSelected={date => {
+                setDate(date.date)
+                close()
+              }}
+            />
+          )}
         </Popover.Panel>
       </Transition>
     </Popover>
