@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer'
 import { google } from 'googleapis'
 import { getTruncatedDateStr } from '../../utils'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import type { FlavorOptionType } from '../../types'
 
 const OAuth2 = google.auth.OAuth2
 
@@ -17,7 +18,7 @@ oauth2Client.setCredentials({
 
 export type CookieItem = {
   count: number
-  flavor: string
+  flavor: FlavorOptionType
 }
 
 export type EmailRequestBody = {
