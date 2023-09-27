@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, forwardRef } from 'react'
 import Link from 'next/link'
 import HomeIcon from '@mui/icons-material/HomeOutlined'
-import PersonIcon from '@mui/icons-material/PersonOutlined'
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibraryOutlined'
 import EmailIcon from '@mui/icons-material/EmailOutlined'
 import MenuIcon from '@mui/icons-material/MenuOutlined'
@@ -16,7 +15,6 @@ type Link = { name: LinkName; icon: Icon; id: string }
 
 const links: Link[] = [
   { name: 'Home', icon: HomeIcon, id: '/' },
-  { name: 'About', icon: PersonIcon, id: '/about' },
   { name: 'Gallery', icon: PhotoLibraryIcon, id: '/gallery' },
   { name: 'Order', icon: EmailIcon, id: '/order' }
 ]
@@ -110,7 +108,7 @@ const MobileNavButton = () => {
           className='h-full fixed z-20 top-0 right-0 bg-[rgba(0,0,0,0.9)] pt-16 pl-6 pr-20 text-white text-xl flex flex-col gap-4'
           ref={drawerRef}
         >
-          {links.slice(1).map((link, index) => (
+          {links.map((link, index) => (
             <li key={index}>
               <Link href={link.id}>
                 <span className='flex items-center gap-2'>

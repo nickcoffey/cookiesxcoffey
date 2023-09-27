@@ -140,7 +140,7 @@ const Order: NextPage = () => {
     <Page header='Order'>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='grid gap-4 lg:grid-cols-2'
+        className='grid gap-4 lg:grid-cols-2 lg:w-[1024px] lg:px-24'
         ref={formRef}
       >
         <Input
