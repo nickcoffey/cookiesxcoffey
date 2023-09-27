@@ -5,5 +5,9 @@ type Props = {
 }
 
 export const Main = ({ children }: Props) => {
-  return <main className='p-4 lg:py-8 lg:px-24 xl:px-48'>{children}</main>
+  return (
+    <main className='p-4 lg:py-8 lg:px-24 lg:flex lg:flex-col lg:items-center'>
+      <div className='max-w-5xl'>{children}</div>
+    </main>
+  )
 }
