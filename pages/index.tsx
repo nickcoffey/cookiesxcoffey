@@ -64,8 +64,16 @@ const Home: NextPage = () => {
             expect to start shipping to the rest of the US soon!
           </p>
           <div className='grid gap-8 text-lg justify-center sm:grid-cols-2'>
-            <HomePageLink Icon={EmailIcon} text='View Past Orders' />
-            <HomePageLink Icon={PhotoLibraryIcon} text='Place an Order' />
+            <HomePageLink
+              Icon={PhotoLibraryIcon}
+              text='View Past Orders'
+              href='/gallery'
+            />
+            <HomePageLink
+              Icon={EmailIcon}
+              text='Place an Order'
+              href='/order'
+            />
           </div>
         </div>
       </Main>
@@ -76,10 +84,11 @@ const Home: NextPage = () => {
 type HomePageLinkProps = {
   Icon: Icon
   text: string
+  href: string
 }
 
-const HomePageLink = ({ Icon, text }: HomePageLinkProps) => (
-  <Link href='/gallery'>
+const HomePageLink = ({ Icon, text, href }: HomePageLinkProps) => (
+  <Link href={href}>
     <span className='flex items-center justify-between w-full gap-6 transition duration-150 cursor-pointer sm:justify-center lg:hover:text-darkprimary'>
       <span className='flex items-center gap-2'>
         <Icon />
