@@ -17,3 +17,11 @@ export const FlavorOptions = [
   ...LimitedTimeOptions
 ] as const
 export type FlavorOptionType = (typeof FlavorOptions)[number]
+
+export const DeliveryOptions = [
+  'Pick up at baker’s location - $0',
+  'Meet in the middle - $5',
+  'Delivery to location (Greater St. Louis Area only) - $10',
+  'Shipping via UPS - Market Price'
+] as const
+export type DeliveryOptionType = (typeof DeliveryOptions)[number]

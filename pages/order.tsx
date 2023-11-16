@@ -8,6 +8,7 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhoneOutlined'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonthOutlined'
 import NumbersIcon from '@mui/icons-material/NumbersOutlined'
 import CookieIcon from '@mui/icons-material/CookieOutlined'
+import LocalShippingIcon from '@mui/icons-material/LocalShippingOutlined'
 import DeleteIcon from '@mui/icons-material/DeleteOutlined'
 import AddIcon from '@mui/icons-material/AddOutlined'
 import ChatIcon from '@mui/icons-material/ChatOutlined'
@@ -17,20 +18,21 @@ import WarningIcon from '@mui/icons-material/WarningOutlined'
 import CheckIcon from '@mui/icons-material/CheckOutlined'
 import { Page, Input, Datepicker, Select } from '../components'
 import { httpPost, maskPhone, removePhoneMask } from '../utils'
-import { FlavorOptions } from '../types'
+import { DeliveryOptions, FlavorOptions } from '../types'
 import type {
   CookieItem,
   EmailRequestBody,
   EmailResponseBody
 } from './api/sendEmail'
 import type { NextPage } from 'next'
-import type { Icon, FlavorOptionType } from '../types'
+import type { Icon, FlavorOptionType, DeliveryOptionType } from '../types'
 
 export type OrderInputs = {
   name: string
   email: string
   phone: string
   deliveryDate: string
+  deliveryMethod: DeliveryOptionType
   cookieList: CookieItem[]
   message: string
 }
@@ -47,6 +49,7 @@ const schema = yup.object({
     .required('Please enter your email.'),
   phone: yup
     .string()
+    .required('Please enter your phone number.')
     .test('phoneMax', 'Please enter a valid phone number.', value => {
       if (value) {
         const unmaskedValLength = removePhoneMask(value).length
@@ -59,6 +62,9 @@ const schema = yup.object({
     .typeError('Please enter a delivery date.')
     .min(new Date(), 'Delivery date must be in the future.')
     .required('Please enter a delivery date.'),
+  deliveryMethod: yup
+    .string()
+    .required('Please select a delivery/pickup option.'),
   cookieList: yup
     .array()
     .ensure()
@@ -101,6 +107,7 @@ const Order: NextPage = () => {
 
   const cookieListWatch = watch('cookieList')
   const phoneWatch = watch('phone')
+  const deliveryMethodWatch = watch('deliveryMethod')
 
   const addFlavor = () => {
     setValue(
@@ -171,6 +178,7 @@ const Order: NextPage = () => {
               })
             }
           }}
+          required
         />
         <Datepicker
           label='Delivery Date'
@@ -178,6 +186,17 @@ const Order: NextPage = () => {
           errorMsg={errors.deliveryDate?.message}
           inputProps={register('deliveryDate')}
           setValue={setValue}
+          required
+        />
+        <Select
+          options={DeliveryOptions}
+          value={deliveryMethodWatch}
+          handleSelect={selectedOption => {
+            setValue('deliveryMethod', selectedOption)
+          }}
+          label='Delivery/Pickup Method'
+          Icon={LocalShippingIcon}
+          errorMsg={errors.deliveryMethod?.message}
           required
         />
         <div className='lg:col-span-2'>

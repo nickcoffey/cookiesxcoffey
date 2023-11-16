@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer'
 import { google } from 'googleapis'
 import { getTruncatedDateStr } from '../../utils'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import type { FlavorOptionType } from '../../types'
+import type { DeliveryOptionType, FlavorOptionType } from '../../types'
 
 const OAuth2 = google.auth.OAuth2
 
@@ -24,8 +24,9 @@ export type CookieItem = {
 export type EmailRequestBody = {
   email: string
   name: string
-  phone?: string
+  phone: string
   deliveryDate: string
+  deliveryMethod: DeliveryOptionType
   cookieList: CookieItem[]
   message: string
 }
@@ -39,8 +40,15 @@ const sendEmail = async (
   res: NextApiResponse<EmailResponseBody>
 ) => {
   if (req.method === 'POST') {
-    const { email, name, phone, deliveryDate, cookieList, message } =
-      req.body as EmailRequestBody
+    const {
+      email,
+      name,
+      phone,
+      deliveryDate,
+      deliveryMethod,
+      cookieList,
+      message
+    } = req.body as EmailRequestBody
 
     try {
       const accessToken = oauth2Client.getAccessToken()
@@ -64,10 +72,11 @@ const sendEmail = async (
         html: `
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
-        ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ''}
+        <p><strong>Phone:</strong> ${phone}</p>
         <p><strong>Date:</strong> ${getTruncatedDateStr(
           new Date(deliveryDate)
         )}</p>
+        <p><strong>Delivery/Pickup Method:</strong> ${deliveryMethod}</p>
         <p><strong>Cookies:</strong></p>
         ${cookieList.reduce(
           (total, currentItem) =>
