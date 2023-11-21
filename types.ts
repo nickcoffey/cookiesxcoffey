@@ -25,3 +25,6 @@ export const DeliveryOptions = [
   'Shipping via UPS - Market Price'
 ] as const
 export type DeliveryOptionType = (typeof DeliveryOptions)[number]
+
+export const AllergyOptions = ['Gluten', 'Nut', 'Dairy'] as const
+export type AllergyOptionType = (typeof AllergyOptions)[number]

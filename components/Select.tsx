@@ -3,12 +3,28 @@ import { Popover, Transition } from '@headlessui/react'
 import { usePopper } from 'react-popper'
 import classNames from 'classnames'
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDownOutlined'
+import type { MutableRefObject } from 'react'
 import type { BaseInputProps } from './Input'
+
+type ClosePopover = (
+  focusableElement?:
+    | HTMLElement
+    | MutableRefObject<HTMLElement | null>
+    | undefined
+) => void
 
 type SelectProps<TOption extends string> = {
   options: TOption[] | readonly TOption[]
-  value: TOption
+  value?: TOption
   handleSelect: (selectedOption: TOption) => void
+  multiple?: false
+} & Omit<BaseInputProps, 'textAreaProps' | 'inputProps'>
+
+type MultiSelectProps<TOption extends string> = {
+  options: TOption[] | readonly TOption[]
+  value?: TOption[]
+  handleSelect: (selectedOptions: TOption[]) => void
+  multiple: true
 } & Omit<BaseInputProps, 'textAreaProps' | 'inputProps'>
 
 // TODO: fix popper offset
@@ -19,11 +35,42 @@ export const Select = <TOption extends string>({
   handleSelect,
   options,
   Icon,
-  errorMsg
-}: SelectProps<TOption>) => {
+  errorMsg,
+  multiple
+}: SelectProps<TOption> | MultiSelectProps<TOption>) => {
   const [referenceElement, setReferenceElement] = useState()
   const [popperElement, setPopperElement] = useState()
   const { styles, attributes } = usePopper(referenceElement, popperElement)
+
+  const onOptionSelect = (option: TOption, close: ClosePopover) => {
+    if (!multiple) {
+      handleSelect(option)
+      close()
+      return
+    }
+
+    if (!value) {
+      handleSelect([option])
+      return
+    }
+
+    if (value.includes(option)) {
+      handleSelect(value.filter(v => v !== option))
+    } else {
+      handleSelect([...value, option])
+    }
+  }
+
+  const getButtonText = (): string | undefined => {
+    if (!multiple) {
+      return value
+    }
+
+    if (!value || value?.length === 0) {
+      return ''
+    }
+    return value.length === 1 ? value[0] : `${value?.length} Selected`
+  }
 
   return (
     <Popover>
@@ -49,7 +96,7 @@ export const Select = <TOption extends string>({
             <>
               <span className='flex items-center gap-2'>
                 <Icon />
-                {value}
+                {getButtonText()}
               </span>
               <ArrowDownIcon />
             </>
@@ -72,14 +119,13 @@ export const Select = <TOption extends string>({
               {({ close }) => (
                 <ul className='flex flex-col bg-white rounded-md shadow-md border border-[#f8f8f8] z-10'>
                   {options.map((option, index) => {
-                    const selected = value === option
+                    const selected = multiple
+                      ? value?.includes(option)
+                      : value === option
                     return (
                       <li
                         key={index}
-                        onClick={() => {
-                          handleSelect(option)
-                          close()
-                        }}
+                        onClick={() => onOptionSelect(option, close)}
                         className={classNames(
                           'flex items-center gap-2 p-2 cursor-pointer rounded-md transition duration-150 lg:hover:bg-darkprimary lg:hover:text-white',
                           {

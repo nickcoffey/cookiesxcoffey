@@ -16,16 +16,22 @@ import SendIcon from '@mui/icons-material/SendOutlined'
 import SyncIcon from '@mui/icons-material/SyncOutlined'
 import WarningIcon from '@mui/icons-material/WarningOutlined'
 import CheckIcon from '@mui/icons-material/CheckOutlined'
+import NoMealsIcon from '@mui/icons-material/NoMealsOutlined'
 import { Page, Input, Datepicker, Select } from '../components'
 import { httpPost, maskPhone, removePhoneMask } from '../utils'
-import { DeliveryOptions, FlavorOptions } from '../types'
+import { AllergyOptions, DeliveryOptions, FlavorOptions } from '../types'
 import type {
   CookieItem,
   EmailRequestBody,
   EmailResponseBody
 } from './api/sendEmail'
 import type { NextPage } from 'next'
-import type { Icon, FlavorOptionType, DeliveryOptionType } from '../types'
+import type {
+  Icon,
+  AllergyOptionType,
+  FlavorOptionType,
+  DeliveryOptionType
+} from '../types'
 
 export type OrderInputs = {
   name: string
@@ -33,6 +39,7 @@ export type OrderInputs = {
   phone: string
   deliveryDate: string
   deliveryMethod: DeliveryOptionType
+  allergyList?: AllergyOptionType[]
   cookieList: CookieItem[]
   message: string
 }
@@ -65,6 +72,7 @@ const schema = yup.object({
   deliveryMethod: yup
     .string()
     .required('Please select a delivery/pickup option.'),
+  allergyList: yup.array().of(yup.string()),
   cookieList: yup
     .array()
     .ensure()
@@ -107,6 +115,7 @@ const Order: NextPage = () => {
 
   const cookieListWatch = watch('cookieList')
   const phoneWatch = watch('phone')
+  const allergyListWatch = watch('allergyList')
   const deliveryMethodWatch = watch('deliveryMethod')
 
   const addFlavor = () => {
@@ -198,6 +207,17 @@ const Order: NextPage = () => {
           Icon={LocalShippingIcon}
           errorMsg={errors.deliveryMethod?.message}
           required
+        />
+        <Select
+          options={AllergyOptions}
+          value={allergyListWatch}
+          handleSelect={selectedOptions => {
+            setValue('allergyList', selectedOptions)
+          }}
+          label='Allergies'
+          Icon={NoMealsIcon}
+          errorMsg={errors.allergyList?.message}
+          multiple
         />
         <div className='lg:col-span-2'>
           <Input

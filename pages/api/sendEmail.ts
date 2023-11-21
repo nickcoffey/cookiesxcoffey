@@ -2,7 +2,11 @@ import nodemailer from 'nodemailer'
 import { google } from 'googleapis'
 import { getTruncatedDateStr } from '../../utils'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import type { DeliveryOptionType, FlavorOptionType } from '../../types'
+import type {
+  AllergyOptionType,
+  DeliveryOptionType,
+  FlavorOptionType
+} from '../../types'
 
 const OAuth2 = google.auth.OAuth2
 
@@ -27,6 +31,7 @@ export type EmailRequestBody = {
   phone: string
   deliveryDate: string
   deliveryMethod: DeliveryOptionType
+  allergyList?: AllergyOptionType[]
   cookieList: CookieItem[]
   message: string
 }
@@ -46,6 +51,7 @@ const sendEmail = async (
       phone,
       deliveryDate,
       deliveryMethod,
+      allergyList,
       cookieList,
       message
     } = req.body as EmailRequestBody
@@ -77,6 +83,11 @@ const sendEmail = async (
           new Date(deliveryDate)
         )}</p>
         <p><strong>Delivery/Pickup Method:</strong> ${deliveryMethod}</p>
+        <p><strong>Allergies:</strong> ${
+          allergyList && allergyList.length > 0
+            ? allergyList.join(', ')
+            : 'None selected'
+        }</p>
         <p><strong>Cookies:</strong></p>
         ${cookieList.reduce(
           (total, currentItem) =>
