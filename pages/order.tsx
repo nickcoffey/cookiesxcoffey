@@ -86,7 +86,7 @@ const schema = yup.object({
         count: yup
           .number()
           .typeError('Please enter an amount.')
-          .min(1, 'Please enter an amount.')
+          .min(12, 'The minimum amount is 12.')
           .max(500, 'That amount is too high.')
           .required('Please enter an amount.')
       })
