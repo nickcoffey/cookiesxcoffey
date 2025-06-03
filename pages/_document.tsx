@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html lang='en'>
       <Head />
-      <body className='tracking-widest text-black bg-white'>
+      <body className='tracking-widest text-black bg-[#fbf9f5]'>
         <Main />
         <NextScript />
       </body>
